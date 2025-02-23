@@ -43,9 +43,7 @@ class _CartPageState extends State<CartPage> {
               itemCount: widget.cartNotifier.totalItems,
               itemBuilder: (context, index) => CartListItemView(
                 item: widget.cartNotifier.items[index],
-                onRemoveFromCart: widget.cartNotifier.removeFromCart,
-                onAddToCart: (item) =>
-                    widget.cartNotifier.addToCart(item.product),
+                cartNotifier: widget.cartNotifier,
               ),
             ),
           ),
