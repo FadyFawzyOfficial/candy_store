@@ -31,7 +31,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(context) {
     return Stack(
       children: [
-        ProductsPage(onAddToCart: cartNotifier.addToCart),
+        ProductsPage(cartNotifier: cartNotifier),
         Positioned(
           right: 16,
           bottom: 16,
