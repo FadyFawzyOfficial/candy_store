@@ -16,31 +16,22 @@ class _MainPageState extends State<MainPage> {
   CartNotifier cartNotifier = CartNotifier();
 
   @override
-  void initState() {
-    super.initState();
-    cartNotifier.addListener(() => setState(() {}));
-  }
-
-  @override
-  void dispose() {
-    cartNotifier.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(context) {
-    return Stack(
-      children: [
-        ProductsPage(cartNotifier: cartNotifier),
-        Positioned(
-          right: 16,
-          bottom: 16,
-          child: GestureDetector(
-            onTap: openCart,
-            child: CartButton(count: cartNotifier.totalItems),
+    return ListenableBuilder(
+      listenable: cartNotifier,
+      builder: (context, _) => Stack(
+        children: [
+          ProductsPage(cartNotifier: cartNotifier),
+          Positioned(
+            right: 16,
+            bottom: 16,
+            child: GestureDetector(
+              onTap: openCart,
+              child: CartButton(count: cartNotifier.totalItems),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
