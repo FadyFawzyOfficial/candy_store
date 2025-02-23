@@ -1,14 +1,13 @@
-import 'package:candy_store/product_list_item.dart';
-import 'package:candy_store/product_list_item_view.dart';
 import 'package:flutter/material.dart';
 
-class ProductsPage extends StatefulWidget {
-  final Function(ProductListItem) onAddToCart;
+import 'cart_notifier.dart';
+import 'product_list_item.dart';
+import 'product_list_item_view.dart';
 
-  const ProductsPage({
-    super.key,
-    required this.onAddToCart,
-  });
+class ProductsPage extends StatefulWidget {
+  final CartNotifier cartNotifier;
+
+  const ProductsPage({super.key, required this.cartNotifier});
 
   @override
   State<ProductsPage> createState() => _ProductsPageState();
@@ -186,11 +185,9 @@ class _ProductsPageState extends State<ProductsPage> {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Products'),
-      ),
+      appBar: AppBar(title: const Text('Products')),
       body: ListView.builder(
         padding: const EdgeInsets.symmetric(vertical: 16),
         itemCount: items.length,
@@ -198,7 +195,7 @@ class _ProductsPageState extends State<ProductsPage> {
           final item = items[index];
           return ProductListItemView(
             item: item,
-            onAddToCart: widget.onAddToCart,
+            cartNotifier: widget.cartNotifier,
           );
         },
       ),
