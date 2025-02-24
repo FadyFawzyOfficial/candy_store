@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 
 import 'cart_list_item.dart';
-import 'cart_notifier.dart';
+import 'cart_notifier_provider.dart';
 
 class CartListItemView extends StatelessWidget {
   final CartListItem item;
-  final CartNotifier cartNotifier;
 
-  const CartListItemView({
-    Key? key,
-    required this.item,
-    required this.cartNotifier,
-  }) : super(key: key);
+  const CartListItemView({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
+    final cartNotifier = CartNotifierProvider.of(context);
     final product = item.product;
     final iconColor = Theme.of(context).colorScheme.secondary;
     return Container(

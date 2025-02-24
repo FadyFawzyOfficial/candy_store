@@ -1,32 +1,20 @@
 import 'package:flutter/material.dart';
 
-import 'cart_notifier.dart';
+import 'cart_notifier_provider.dart';
 import 'product_details_page.dart';
 import 'product_list_item.dart';
 
 class ProductListItemView extends StatelessWidget {
   final ProductListItem item;
-  final CartNotifier cartNotifier;
 
-  const ProductListItemView({
-    super.key,
-    required this.item,
-    required this.cartNotifier,
-  });
+  const ProductListItemView({super.key, required this.item});
 
   @override
   Widget build(context) {
+    final cartNotifier = CartNotifierProvider.of(context);
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => ProductDetailsPage(
-              product: item,
-              cartNotifier: cartNotifier,
-            ),
-          ),
-        );
-      },
+      onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => ProductDetailsPage(product: item))),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         child: Row(
