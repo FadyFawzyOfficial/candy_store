@@ -1,6 +1,7 @@
-import 'package:candy_store/cart_list_item.dart';
-import 'package:candy_store/product_list_item.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
+import 'cart_list_item.dart';
+import 'product_list_item.dart';
 
 class CartNotifier extends ChangeNotifier {
   final Map<String, CartListItem> _items = {};
@@ -8,9 +9,7 @@ class CartNotifier extends ChangeNotifier {
   int _totalItems = 0;
 
   List<CartListItem> get items => _items.values.toList();
-
   double get totalPrice => _totalPrice;
-
   int get totalItems => _totalItems;
 
   void addToCart(ProductListItem item) {
@@ -22,12 +21,12 @@ class CartNotifier extends ChangeNotifier {
       );
       _items[item.id] = existingItem;
     } else {
-      final cartItem = CartListItem(
+      _items[item.id] = CartListItem(
         product: item,
         quantity: 1,
       );
-      _items[item.id] = cartItem;
     }
+
     _totalItems++;
     _totalPrice += item.price;
 
@@ -47,6 +46,7 @@ class CartNotifier extends ChangeNotifier {
         _items.remove(item.product.id);
       }
     }
+
     _totalItems--;
     _totalPrice -= item.product.price;
 
