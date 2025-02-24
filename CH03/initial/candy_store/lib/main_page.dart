@@ -5,14 +5,9 @@ import 'cart_notifier_provider.dart';
 import 'cart_page.dart';
 import 'products_page.dart';
 
-class MainPage extends StatefulWidget {
+class MainPage extends StatelessWidget {
   const MainPage({super.key});
 
-  @override
-  State<MainPage> createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
   @override
   Widget build(context) {
     final cartNotifier = CartNotifierProvider.of(context);
@@ -20,12 +15,12 @@ class _MainPageState extends State<MainPage> {
       listenable: cartNotifier,
       builder: (context, _) => Stack(
         children: [
-          const ProductsPage(),
+          ProductsPage(),
           Positioned(
             right: 16,
             bottom: 16,
             child: GestureDetector(
-              onTap: openCart,
+              onTap: () => openCart(context),
               child: CartButton(count: cartNotifier.totalItems),
             ),
           ),
@@ -34,7 +29,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  void openCart() {
+  void openCart(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const CartPage(),

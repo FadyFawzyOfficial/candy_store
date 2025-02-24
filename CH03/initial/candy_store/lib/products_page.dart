@@ -3,14 +3,9 @@ import 'package:flutter/material.dart';
 import 'product_list_item.dart';
 import 'product_list_item_view.dart';
 
-class ProductsPage extends StatefulWidget {
-  const ProductsPage({super.key});
+class ProductsPage extends StatelessWidget {
+  ProductsPage({super.key});
 
-  @override
-  State<ProductsPage> createState() => _ProductsPageState();
-}
-
-class _ProductsPageState extends State<ProductsPage> {
   final List<ProductListItem> items = [
     ProductListItem(
       id: '1',

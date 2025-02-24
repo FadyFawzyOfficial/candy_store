@@ -1,16 +1,11 @@
-import 'package:candy_store/cart_notifier_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'cart_list_item_view.dart';
+import 'cart_notifier_provider.dart';
 
-class CartPage extends StatefulWidget {
+class CartPage extends StatelessWidget {
   const CartPage({super.key});
 
-  @override
-  State<CartPage> createState() => _CartPageState();
-}
-
-class _CartPageState extends State<CartPage> {
   @override
   Widget build(context) {
     final cartNotifier = CartNotifierProvider.of(context);
