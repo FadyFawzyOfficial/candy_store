@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'cart_notifier.dart';
+import 'cart_notifier_provider.dart';
 import 'product_list_item.dart';
 
 class ProductDetailsPage extends StatelessWidget {
   final ProductListItem product;
-  final CartNotifier cartNotifier;
 
-  const ProductDetailsPage({
-    super.key,
-    required this.product,
-    required this.cartNotifier,
-  });
+  const ProductDetailsPage({super.key, required this.product});
 
   @override
   Widget build(context) {
+    final cartNotifier = CartNotifierProvider.of(context);
     return Scaffold(
       appBar: AppBar(title: Text(product.name)),
       body: Stack(

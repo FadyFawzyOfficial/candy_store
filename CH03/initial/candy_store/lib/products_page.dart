@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'cart_notifier.dart';
 import 'product_list_item.dart';
 import 'product_list_item_view.dart';
 
 class ProductsPage extends StatefulWidget {
-  final CartNotifier cartNotifier;
-
-  const ProductsPage({super.key, required this.cartNotifier});
+  const ProductsPage({super.key});
 
   @override
   State<ProductsPage> createState() => _ProductsPageState();
@@ -193,10 +190,7 @@ class _ProductsPageState extends State<ProductsPage> {
         itemCount: items.length,
         itemBuilder: (context, index) {
           final item = items[index];
-          return ProductListItemView(
-            item: item,
-            cartNotifier: widget.cartNotifier,
-          );
+          return ProductListItemView(item: item);
         },
       ),
     );
