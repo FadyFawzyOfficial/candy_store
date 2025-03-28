@@ -1,0 +1,16 @@
+import 'package:candy_store/cart_list_item.dart';
+
+
+//! Combine the fields related to the cart information into a single class (this),
+//! which will be responsible for describing the current state of the cart.
+class CartInfo {
+  Map<String, CartListItem> items;
+  double totalPrice;
+  int totalItems;
+
+  CartInfo({
+    required this.items,
+    required this.totalPrice,
+    required this.totalItems,
+  });
+}
