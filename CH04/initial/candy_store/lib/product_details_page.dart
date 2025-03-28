@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'cart_notifier_provider.dart';
+import 'cart_view_model_provider.dart';
 import 'product_list_item.dart';
 
 class ProductDetailsPage extends StatelessWidget {
@@ -10,7 +10,7 @@ class ProductDetailsPage extends StatelessWidget {
 
   @override
   Widget build(context) {
-    final cartNotifier = CartNotifierProvider.of(context);
+    final cartViewModel = CartViewModelProvider.of(context);
     return Scaffold(
       appBar: AppBar(title: Text(product.name)),
       body: Stack(
@@ -71,7 +71,7 @@ class ProductDetailsPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(24, 0, 24, 16),
               child: ElevatedButton(
-                onPressed: () => cartNotifier.addToCart(product),
+                onPressed: () => cartViewModel.addToCart(product),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 32,

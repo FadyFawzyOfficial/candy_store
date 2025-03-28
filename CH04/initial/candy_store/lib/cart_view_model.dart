@@ -4,10 +4,10 @@ import 'cart_list_item.dart';
 import 'cart_model.dart';
 import 'product_list_item.dart';
 
-class CartNotifier extends ChangeNotifier {
+class CartViewModel extends ChangeNotifier {
   final CartModel _cartModel = CartModel();
 
-  CartNotifier() {
+  CartViewModel() {
     //! 1. We subscribe to the stream fo CartInfo from CartModel in the constructor of CartNotifier.
     //! Now, every time there is a change in cartInfoStream, we will update our
     //! locale fields & notify listeners as before via the notifyListeners() method.
