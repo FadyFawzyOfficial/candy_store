@@ -21,7 +21,7 @@ class MainPage extends StatelessWidget {
             bottom: 16,
             child: GestureDetector(
               onTap: () => openCart(context),
-              child: CartButton(count: cartViewModel.totalItems),
+              child: CartButton(count: cartViewModel.state.totalItems),
             ),
           ),
         ],

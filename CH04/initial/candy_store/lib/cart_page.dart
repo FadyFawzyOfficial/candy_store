@@ -19,9 +19,9 @@ class CartPage extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 60),
               child: ListView.builder(
                 padding: const EdgeInsets.symmetric(vertical: 16),
-                itemCount: cartViewModel.items.length,
+                itemCount: cartViewModel.state.items.length,
                 itemBuilder: (context, index) => CartListItemView(
-                  item: cartViewModel.items[index],
+                  item: cartViewModel.state.items.values.toList()[index],
                 ),
               ),
             ),
@@ -46,7 +46,7 @@ class CartPage extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${cartViewModel.totalPrice} €',
+                      '${cartViewModel.state.totalPrice} €',
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
