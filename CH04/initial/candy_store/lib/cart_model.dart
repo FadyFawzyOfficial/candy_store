@@ -18,7 +18,7 @@ class CartModel {
 
   Stream<CartInfo> get cartInfoStream => _cartInfoController.stream;
 
-  Future<CartInfo> get CartInfoFuture async => _cartInfo;
+  Future<CartInfo> get cartInfoFuture async => _cartInfo;
 
   void dispose() => _cartInfoController.close();
 
