@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'cart_list_item_view.dart';
 import 'cart_view_model_provider.dart';
 
-class CartPage extends StatelessWidget {
+class CartPage extends StatefulWidget {
   const CartPage({super.key});
 
+  @override
+  State<CartPage> createState() => _CartPageState();
+}
+
+class _CartPageState extends State<CartPage> {
   @override
   Widget build(context) {
     final cartViewModel = CartViewModelProvider.of(context);
