@@ -13,24 +13,23 @@ class CartModel {
 
   CartInfo get cartInfo => _cartInfo;
 
-  //! 1. we have created Stream and StreamController.
-  //* Here, Stream is what stores the data and StreamController is what helps us
-  //* manage how new data, as well as subscriptions, is emitted.
   final StreamController<CartInfo> _cartInfoController =
       StreamController<CartInfo>();
 
   Stream<CartInfo> get cartInfoStream => _cartInfoController.stream;
 
-  //* We created a Future that returns a single instance of CartInfo.
-  //* This can be used for single reads when we don't need to listen to the updates.
   Future<CartInfo> get CartInfoFuture async => _cartInfo;
 
-  //! 3. To notify our listener that there will be no more events, we need to call
-  // ! the close() method of StreamController. We encapsulated this in the dispose()
-  //! method of CartModel so that we don't leak the details of the implementation to the outside.
   void dispose() => _cartInfoController.close();
 
-  void addToCart(ProductListItem item) {
+  //! 1. We changed the void type to Future<void> to introduce delay that imitates
+  //! a request to the real API.
+  Future<void> addToCart(ProductListItem item) async {
+    //* 2. We add a 3-seconds delay to that we can see it in the UI when we handle it.
+    await Future.delayed(const Duration(seconds: 3));
+    //? 3.In this case, the code is commented, but to test error handling,
+    //? we will uncomment the code that throws exceptions
+    // throw Exception('Could not add item to the cart');
     CartListItem? existingItem = _cartInfo.items[item.id];
     if (existingItem != null) {
       existingItem = CartListItem(
@@ -48,14 +47,12 @@ class CartModel {
     _cartInfo.totalItems++;
     _cartInfo.totalPrice += item.price;
 
-    //! 2. Use the add() method ot StreamController to ad new data to our stream.
-    //? What we passed there is _cartInfo.
     _cartInfoController.add(_cartInfo);
-
-    // notifyListeners();
   }
 
-  void removeFromCart(CartListItem item) {
+  Future<void> removeFromCart(CartListItem item) async {
+    await Future.delayed(const Duration(seconds: 3));
+    // throw Exception('Could not remove item from cart')
     CartListItem? existingItem = _cartInfo.items[item.product.id];
     if (existingItem != null) {
       if (existingItem.quantity > 1) {
@@ -73,7 +70,5 @@ class CartModel {
     _cartInfo.totalPrice -= item.product.price;
 
     _cartInfoController.add(_cartInfo);
-
-    // notifyListeners();
   }
 }

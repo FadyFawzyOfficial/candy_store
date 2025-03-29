@@ -2,37 +2,66 @@ import 'package:flutter/material.dart';
 
 import 'cart_list_item.dart';
 import 'cart_model.dart';
+import 'cart_state.dart';
 import 'product_list_item.dart';
 
 class CartViewModel extends ChangeNotifier {
+  // ToDo: Inject this in the DI chapter
   final CartModel _cartModel = CartModel();
 
+  CartState _state = CartState(
+    items: {},
+    totalPrice: 0,
+    totalItems: 0,
+  );
+
   CartViewModel() {
-    //! 1. We subscribe to the stream fo CartInfo from CartModel in the constructor of CartNotifier.
-    //! Now, every time there is a change in cartInfoStream, we will update our
-    //! locale fields & notify listeners as before via the notifyListeners() method.
     _cartModel.cartInfoStream.listen((cartInfo) {
-      _items.clear();
-      _totalItems = cartInfo.totalItems;
-      _totalPrice = cartInfo.totalPrice;
-      cartInfo.items.forEach((key, value) => _items[key] = value);
+      // ToDo: Should actually copy the Map and not just the reference.
+      //! 1. Instead of updating separate fields, we now always update the state object.
+      _state = _state.copyWith(
+        items: cartInfo.items,
+        totalPrice: cartInfo.totalPrice,
+        totalItems: cartInfo.totalItems,
+      );
       notifyListeners();
     });
   }
 
-  final Map<String, CartListItem> _items = {};
-  double _totalPrice = 0;
-  int _totalItems = 0;
+  CartState get state => _state;
 
-  List<CartListItem> get items => _items.values.toList();
-  double get totalPrice => _totalPrice;
-  int get totalItems => _totalItems;
+  //* 2. In the addToCart() method, we now set the state to isProcessing when we
+  //* start some action, as well as catch the error and set it to state if it happens.
+  Future<void> addToCart(ProductListItem item) async {
+    try {
+      _state = _state.copyWith(isProcessing: true);
+      notifyListeners();
+      await _cartModel.addToCart(item);
+      _state = _state.copyWith(isProcessing: false);
+    } on Exception catch (e) {
+      _state = _state.copyWith(error: e);
+    }
+    notifyListeners();
+  }
 
-  //! 2. In our addToCart() and removeFromCart() methods, we now have no logic,
-  //! and are just calling the methods of CartModel.
-  void addToCart(ProductListItem item) => _cartModel.addToCart(item);
+  Future<void> removeFromCart(CartListItem item) async {
+    try {
+      _state = _state.copyWith(isProcessing: true);
+      notifyListeners();
+      await _cartModel.removeFromCart(item);
+      _state = _state.copyWith(isProcessing: false);
+    } on Exception catch (e) {
+      _state = _state.copyWith(error: e);
+    }
+    notifyListeners();
+  }
 
-  void removeFromCart(CartListItem item) => _cartModel.removeFromCart(item);
+  //? 3. We introduced this method to reset the error filed of the state.
+  //! We will use it to consume the error once we have addressed it in the UI.
+  void clearError() {
+    _state = _state.copyWith(error: null);
+    notifyListeners();
+  }
 
   @override
   void dispose() {
