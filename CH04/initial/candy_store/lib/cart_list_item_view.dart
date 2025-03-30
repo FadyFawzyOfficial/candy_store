@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'cart_cubit.dart';
 import 'cart_list_item.dart';
-import 'cart_view_model_provider.dart';
 
 class CartListItemView extends StatelessWidget {
   final CartListItem item;
@@ -9,8 +10,8 @@ class CartListItemView extends StatelessWidget {
   const CartListItemView({super.key, required this.item});
 
   @override
-  Widget build(BuildContext context) {
-    final cartViewModel = CartViewModelProvider.of(context);
+  Widget build(context) {
+    final cartCubit = context.read<CartCubit>();
     final product = item.product;
     final iconColor = Theme.of(context).colorScheme.secondary;
     return Container(
@@ -55,9 +56,9 @@ class CartListItemView extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          onPressed: cartViewModel.state.isProcessing
+                          onPressed: cartCubit.state.isProcessing
                               ? null
-                              : () => cartViewModel.removeFromCart(item),
+                              : () => cartCubit.removeFromCart(item),
                           icon: Icon(
                             Icons.remove,
                             color: iconColor,
@@ -71,9 +72,9 @@ class CartListItemView extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                          onPressed: cartViewModel.state.isProcessing
+                          onPressed: cartCubit.state.isProcessing
                               ? null
-                              : () => cartViewModel.addToCart(item.product),
+                              : () => cartCubit.addToCart(item.product),
                           icon: Icon(
                             Icons.add,
                             color: iconColor,

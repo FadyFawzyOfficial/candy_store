@@ -32,7 +32,7 @@ class MainPage extends StatelessWidget {
   void openCart(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const CartPage(),
+        builder: (context) => CartPage.withBloc(),
       ),
     );
   }
