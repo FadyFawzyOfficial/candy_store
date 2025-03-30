@@ -5,6 +5,9 @@ import 'cart_list_item.dart';
 import 'product_list_item.dart';
 
 class CartModel {
+  //! 1. First, we created a singleton constructor so that it is possible to create
+  //! only a single instance of CartModel. We did this so that the information in
+  //! this model is consistent across the whole application.
   CartModel._internal();
 
   static final CartModel _instance = CartModel._internal();
@@ -19,6 +22,10 @@ class CartModel {
 
   CartInfo get cartInfo => _cartInfo;
 
+  //! 2. Then, we updated StreamController to broadcast. This is a special
+  //! functionality of a stream in Dart, which allows the stream to be listened
+  //! to by many listeners, instead of one. This is required if we create several
+  //! instances of the same cubit.
   final StreamController<CartInfo> _cartInfoController =
       StreamController<CartInfo>.broadcast();
 
