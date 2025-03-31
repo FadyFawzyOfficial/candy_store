@@ -4,13 +4,22 @@ import 'cart_event.dart';
 import 'cart_info.dart';
 import 'cart_model.dart';
 import 'cart_state.dart';
+import 'delayed_result.dart';
 
 //* 1. Now, instead of extending Cubit, we extend Bloc. Note that in the diamond
 //* brackets, we also specify the parent class of the events that this bloc will handle.
 class CartBloc extends Bloc<CartEvent, CartState> {
   final CartModel _cartModel = CartModel();
 
-  CartBloc() : super(const CartState(items: {}, totalPrice: 0, totalItems: 0)) {
+  CartBloc()
+      : super(
+          const CartState(
+            items: {},
+            totalPrice: 0,
+            totalItems: 0,
+            loadingResult: DelayedResult.idle(),
+          ),
+        ) {
     //* 2. In our constructor, we need to provide the on handlers for every type
     //* of event. This is very important because, as opposed to the cubit,
     //* we won’t be calling methods on the bloc.
@@ -27,7 +36,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   Future<void> _onLoad(Load event, Emitter emit) async {
     try {
-      emit(state.copyWith(isProcessing: true));
+      emit(state.copyWith(loadingResult: const DelayedResult.inProgress()));
       //* 3. When we load our bloc, we will read the initial state of our cart
       //* from the Model that we created previously.
       final cartInfo = await _cartModel.cartInfoFuture;
@@ -40,7 +49,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           totalItems: cartInfo.totalItems,
         ),
       );
-      emit(state.copyWith(isProcessing: false));
+      emit(state.copyWith(loadingResult: const DelayedResult.idle()));
 
       //! 4. After that, we subscribe to changes from the stream by using a
       //! special function of the bloc’s Emitter – that is, emit.onEach.
@@ -55,36 +64,40 @@ class CartBloc extends Bloc<CartEvent, CartState> {
             totalItems: cartInfo.totalItems,
           ),
         ),
-        onError: (Object error, StackTrace stackTrace) =>
-            emit(state.copyWith(error: Exception('Failed to load cart info'))),
+        onError: (Object error, StackTrace stackTrace) => emit(
+          state.copyWith(
+            loadingResult:
+                DelayedResult.fromError(Exception('Failed to load cart info')),
+          ),
+        ),
       );
     } on Exception catch (e) {
-      emit(state.copyWith(error: e));
+      emit(state.copyWith(loadingResult: DelayedResult.fromError(e)));
     }
   }
 
   Future<void> _onAddItem(AddItem event, Emitter emit) async {
     try {
-      emit(state.copyWith(isProcessing: true));
+      emit(state.copyWith(loadingResult: const DelayedResult.inProgress()));
       await _cartModel.addToCart(event.item);
-      emit(state.copyWith(isProcessing: false));
+      emit(state.copyWith(loadingResult: const DelayedResult.idle()));
     } on Exception catch (e) {
-      emit(state.copyWith(error: e));
+      emit(state.copyWith(loadingResult: DelayedResult.fromError(e)));
     }
   }
 
   Future<void> _onRemoveItem(RemoveItem event, Emitter emit) async {
     try {
-      emit(state.copyWith(isProcessing: true));
+      emit(state.copyWith(loadingResult: const DelayedResult.inProgress()));
       await _cartModel.removeFromCart(event.item);
-      emit(state.copyWith(isProcessing: false));
+      emit(state.copyWith(loadingResult: const DelayedResult.idle()));
     } on Exception catch (e) {
-      emit(state.copyWith(error: e));
+      emit(state.copyWith(loadingResult: DelayedResult.fromError(e)));
     }
   }
 
   Future<void> _onClearError(ClearError event, Emitter emit) async =>
-      emit(state.copyWith(error: null));
+      emit(state.copyWith(loadingResult: const DelayedResult.idle()));
 
   /*  @override
   Future<void> close() async {

@@ -53,7 +53,7 @@ class _CartPageState extends State<CartPage> {
         //! builder to be invoked! For example, you don’t want to rebuild when an
         //! error event happens, but you do want to react to it in the listener.
         listener: (context, state) {
-          if (state.error != null) {
+          if (state.loadingResult.isError) {
             _cartBloc.add(const ClearError());
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Failed to preform this action')),
@@ -93,7 +93,7 @@ class _CartPageState extends State<CartPage> {
                           color: Colors.black,
                         ),
                       ),
-                      state.isProcessing
+                      state.loadingResult.isInProgress
                           ? const SizedBox(
                               width: 24,
                               height: 24,

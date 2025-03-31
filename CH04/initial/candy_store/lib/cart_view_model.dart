@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'cart_list_item.dart';
 import 'cart_model.dart';
 import 'cart_state.dart';
+import 'delayed_result.dart';
 import 'product_list_item.dart';
 
 class CartViewModel extends ChangeNotifier {
@@ -13,6 +14,7 @@ class CartViewModel extends ChangeNotifier {
     items: {},
     totalPrice: 0,
     totalItems: 0,
+    loadingResult: DelayedResult.idle(),
   );
 
   CartViewModel() {
@@ -34,24 +36,25 @@ class CartViewModel extends ChangeNotifier {
   //* start some action, as well as catch the error and set it to state if it happens.
   Future<void> addToCart(ProductListItem item) async {
     try {
-      _state = _state.copyWith(isProcessing: true);
+      _state = _state.copyWith(loadingResult: const DelayedResult.inProgress());
       notifyListeners();
       await _cartModel.addToCart(item);
-      _state = _state.copyWith(isProcessing: false);
+      _state = _state.copyWith(loadingResult: const DelayedResult.idle());
     } on Exception catch (e) {
-      _state = _state.copyWith(error: e);
+      _state = _state.copyWith(loadingResult: DelayedResult.fromError(e));
     }
     notifyListeners();
   }
 
   Future<void> removeFromCart(CartListItem item) async {
     try {
-      _state = _state.copyWith(isProcessing: true);
+      _state = _state.copyWith(loadingResult: const DelayedResult.inProgress());
+
       notifyListeners();
       await _cartModel.removeFromCart(item);
-      _state = _state.copyWith(isProcessing: false);
+      _state = _state.copyWith(loadingResult: const DelayedResult.idle());
     } on Exception catch (e) {
-      _state = _state.copyWith(error: e);
+      _state = _state.copyWith(loadingResult: DelayedResult.fromError(e));
     }
     notifyListeners();
   }
@@ -59,7 +62,7 @@ class CartViewModel extends ChangeNotifier {
   //? 3. We introduced this method to reset the error filed of the state.
   //! We will use it to consume the error once we have addressed it in the UI.
   void clearError() {
-    _state = _state.copyWith(error: null);
+    _state = _state.copyWith(loadingResult: const DelayedResult.idle());
     notifyListeners();
   }
 
