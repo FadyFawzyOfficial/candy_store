@@ -8,6 +8,8 @@ class CartState extends Equatable {
   final double totalPrice;
   final int totalItems;
   //! Now, instead of the isProcessing and error fields, we have one - the loadingResult filed.
+  //! Instead of setting different fields for progress and errors, we now manipulate the status
+  //! with just one, and it's always consistent with the actual state of things.
   final DelayedResult<void> loadingResult;
 
   const CartState({
