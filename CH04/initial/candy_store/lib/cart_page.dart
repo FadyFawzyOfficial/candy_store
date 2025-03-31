@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'cart_cubit.dart';
+import 'cart_bloc.dart';
+import 'cart_event.dart';
 import 'cart_list_item_view.dart';
 import 'cart_state.dart';
 
@@ -11,13 +12,13 @@ class CartPage extends StatefulWidget {
   @override
   State<CartPage> createState() => _CartPageState();
 
-  static Widget withBloc() =>
-      BlocProvider(create: (context) => CartCubit(), child: const CartPage());
+  static Widget withBloc() => BlocProvider<CartBloc>(
+      create: (context) => CartBloc(), child: const CartPage());
 }
 
 class _CartPageState extends State<CartPage> {
   //* 1. First, we have swapped our ViewModel for Cubit.
-  late final CartCubit _cartCubit;
+  late final CartBloc _cartBloc;
 
   @override
   void initState() {
@@ -26,8 +27,8 @@ class _CartPageState extends State<CartPage> {
     //* This method comes from the flutter_bloc library and removes the need to create
     //* our own InheritedWidget widget that provides cubits to the widget tree.
     //* We will see this in more detail right after this snippet.
-    _cartCubit = context.read<CartCubit>();
-    _cartCubit.loadCart();
+    _cartBloc = context.read<CartBloc>();
+    _cartBloc.add(const Load());
   }
 
   @override
@@ -39,7 +40,7 @@ class _CartPageState extends State<CartPage> {
       //* but the most robust of them is BlocConsumer. First of all, we need to
       //* specify the type of cubit and the type of state we’re working on in the
       //* constructor so that Dart can infer those types in the callbacks.
-      body: BlocConsumer<CartCubit, CartState>(
+      body: BlocConsumer<CartBloc, CartState>(
         //* 4. Next, there are two interesting parameters. The first is listener,
         //* which has context and state as parameters. It is invoked when any
         //* change to the state occurs, so we don’t have to attach custom listeners
@@ -53,7 +54,7 @@ class _CartPageState extends State<CartPage> {
         //! error event happens, but you do want to react to it in the listener.
         listener: (context, state) {
           if (state.error != null) {
-            _cartCubit.clearError();
+            _cartBloc.add(const ClearError());
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Failed to preform this action')),
             );
