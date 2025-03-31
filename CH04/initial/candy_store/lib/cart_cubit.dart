@@ -1,9 +1,10 @@
-import 'package:candy_store/cart_list_item.dart';
-import 'package:candy_store/product_list_item.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'cart_list_item.dart';
 import 'cart_model.dart';
 import 'cart_state.dart';
+import 'delayed_result.dart';
+import 'product_list_item.dart';
 
 //* 1. First of all, instead of extending ChangeNotifier, we now extend Cubit.
 //* Pay attention to how we also specify CartState in the angle bracket that
@@ -16,7 +17,15 @@ class CartCubit extends Cubit<CartState> {
   //* To do that, we need to pass the initial state to the super constructor.
   //* We can do this internally, or if we want, we can allow the callers of our
   //* constructor to pass their own value. This is up to us and our use case.
-  CartCubit() : super(CartState(items: {}, totalPrice: 0, totalItems: 0)) {
+  CartCubit()
+      : super(
+          const CartState(
+            items: {},
+            totalPrice: 0,
+            totalItems: 0,
+            loadingResult: DelayedResult.idle(),
+          ),
+        ) {
     _cartModel.cartInfoStream.listen(
       //* 3. Here, Cubit has a special function that we need to call to notify
       //* our subscribers of state changes. Similarly, we called notifyListeners
@@ -38,7 +47,7 @@ class CartCubit extends Cubit<CartState> {
       //* we just call emit and pass the new state as the parameter.
       //* We don’t need to call notifyListeners after any internal state changes
       //* as the emit function does everything.
-      emit(state.copyWith(isProcessing: true));
+      emit(state.copyWith(loadingResult: const DelayedResult.inProgress()));
       final cartInfo = await _cartModel.cartInfoFuture;
       // ToDo: Should actually copy the Map and not just the reference, which
       // we will do at the end of this chapter.
@@ -49,33 +58,34 @@ class CartCubit extends Cubit<CartState> {
         totalItems: cartInfo.totalItems,
       ));
 
-      emit(state.copyWith(isProcessing: false));
+      emit(state.copyWith(loadingResult: const DelayedResult.idle()));
     } on Exception catch (e) {
-      emit(state.copyWith(error: e));
+      emit(state.copyWith(loadingResult: DelayedResult.fromError(e)));
     }
   }
 
   Future<void> addToCart(ProductListItem item) async {
     try {
-      emit(state.copyWith(isProcessing: true));
+      emit(state.copyWith(loadingResult: const DelayedResult.inProgress()));
       await _cartModel.addToCart(item);
-      emit(state.copyWith(isProcessing: false));
+      emit(state.copyWith(loadingResult: const DelayedResult.idle()));
     } on Exception catch (e) {
-      emit(state.copyWith(error: e));
+      emit(state.copyWith(loadingResult: DelayedResult.fromError(e)));
     }
   }
 
   Future<void> removeFromCart(CartListItem item) async {
     try {
-      emit(state.copyWith(isProcessing: true));
+      emit(state.copyWith(loadingResult: const DelayedResult.inProgress()));
       await _cartModel.removeFromCart(item);
-      emit(state.copyWith(isProcessing: false));
+      emit(state.copyWith(loadingResult: const DelayedResult.idle()));
     } on Exception catch (e) {
-      emit(state.copyWith(error: e));
+      emit(state.copyWith(loadingResult: DelayedResult.fromError(e)));
     }
   }
 
-  void clearError() => emit(state.copyWith(error: null));
+  void clearError() =>
+      emit(state.copyWith(loadingResult: const DelayedResult.idle()));
 
   @override
   Future<void> close() async {
