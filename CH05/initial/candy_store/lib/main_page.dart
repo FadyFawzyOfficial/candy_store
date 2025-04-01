@@ -29,6 +29,7 @@ class MainPage extends StatelessWidget {
     );
   }
 
+  //! This is the imperative style navigation with anonymous routing.
   void openCart(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
