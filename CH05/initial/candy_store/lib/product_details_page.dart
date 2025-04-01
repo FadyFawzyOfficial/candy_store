@@ -1,23 +1,18 @@
-import 'package:candy_store/cart_view_model_provider.dart';
-import 'package:candy_store/product_list_item.dart';
 import 'package:flutter/material.dart';
+
+import 'cart_view_model_provider.dart';
+import 'product_list_item.dart';
 
 class ProductDetailsPage extends StatelessWidget {
   final ProductListItem product;
 
-  const ProductDetailsPage({
-    super.key,
-    required this.product,
-  });
+  const ProductDetailsPage({super.key, required this.product});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     final cartViewModel = CartViewModelProvider.of(context);
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text(product.name),
-      ),
+      appBar: AppBar(title: Text(product.name)),
       body: Stack(
         fit: StackFit.expand,
         children: [

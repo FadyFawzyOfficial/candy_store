@@ -1,15 +1,11 @@
-import 'package:candy_store/product_list_item.dart';
-import 'package:candy_store/product_list_item_view.dart';
 import 'package:flutter/material.dart';
 
-class ProductsPage extends StatefulWidget {
-  const ProductsPage({super.key});
+import 'product_list_item.dart';
+import 'product_list_item_view.dart';
 
-  @override
-  State<ProductsPage> createState() => _ProductsPageState();
-}
+class ProductsPage extends StatelessWidget {
+  ProductsPage({super.key});
 
-class _ProductsPageState extends State<ProductsPage> {
   final List<ProductListItem> items = [
     ProductListItem(
       id: '1',
@@ -181,11 +177,9 @@ class _ProductsPageState extends State<ProductsPage> {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Products'),
-      ),
+      appBar: AppBar(title: const Text('Products')),
       body: ListView.builder(
         padding: const EdgeInsets.symmetric(vertical: 16),
         itemCount: items.length,
