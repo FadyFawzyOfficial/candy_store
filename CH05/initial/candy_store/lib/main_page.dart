@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'cart_button.dart';
-import 'cart_page.dart';
 import 'cart_view_model_provider.dart';
 import 'products_page.dart';
 
@@ -30,11 +29,6 @@ class MainPage extends StatelessWidget {
   }
 
   //! This is the imperative style navigation with anonymous routing.
-  void openCart(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => CartPage.withBloc(),
-      ),
-    );
-  }
+  void openCart(BuildContext context) =>
+      Navigator.of(context).pushNamed('/cart');
 }
