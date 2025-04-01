@@ -82,33 +82,41 @@ class _CartPageState extends State<CartPage> {
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   decoration:
                       BoxDecoration(color: Theme.of(context).primaryColor),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
                     children: [
-                      const Text(
-                        'Total:',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      state.loadingResult.isInProgress
-                          ? const SizedBox(
-                              width: 24,
-                              height: 24,
-                              child: CircularProgressIndicator(
-                                color: Colors.black,
-                              ),
-                            )
-                          : Text(
-                              '${state.totalPrice} €',
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Total:',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
                             ),
+                          ),
+                          state.loadingResult.isInProgress
+                              ? const SizedBox(
+                                  width: 24,
+                                  height: 24,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.black,
+                                  ),
+                                )
+                              : Text(
+                                  '${state.totalPrice} €',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                        ],
+                      ),
+                      ElevatedButton(
+                        onPressed: Navigator.of(context).pop,
+                        child: const Text('Go Back!'),
+                      ),
                     ],
                   ),
                 ),
