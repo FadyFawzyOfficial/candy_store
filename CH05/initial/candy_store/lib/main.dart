@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'cart_page.dart';
 import 'cart_view_model.dart';
 import 'cart_view_model_provider.dart';
 import 'main_page.dart';
@@ -17,7 +18,11 @@ void main() {
         theme: ThemeData(
           primarySwatch: Colors.lime,
         ),
-        home: const MainPage(),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const MainPage(),
+          '/cart': (context) => CartPage.withBloc(),
+        },
       ),
     ),
   );
