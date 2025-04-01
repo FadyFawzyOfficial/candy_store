@@ -1,12 +1,11 @@
-import 'package:candy_store/cart_list_item.dart';
-import 'package:candy_store/product_list_item.dart';
-import 'package:equatable/equatable.dart';
+import 'cart_list_item.dart';
+import 'product_list_item.dart';
 
-sealed class CartEvent extends Equatable {
+//! We will have the parent as a sealed class, which will act as the umbrella type
+//! for all of the events of this bloc, and a specific event per specific action,
+//! such as load, add, or remove.
+sealed class CartEvent {
   const CartEvent();
-
-  @override
-  List<Object?> get props => [];
 }
 
 final class Load extends CartEvent {
@@ -17,18 +16,12 @@ final class AddItem extends CartEvent {
   final ProductListItem item;
 
   const AddItem(this.item);
-
-  @override
-  List<Object?> get props => [item];
 }
 
 final class RemoveItem extends CartEvent {
   final CartListItem item;
 
   const RemoveItem(this.item);
-
-  @override
-  List<Object?> get props => [item];
 }
 
 final class ClearError extends CartEvent {
