@@ -10,6 +10,30 @@ class Dessert {
   const Dessert(this.name, this.description, this.imageUrl);
 }
 
+//! Represents the current state of the app navigation.
+//* We will handle all routes in the app with a single class. For advanced apps,
+//* you can use different classes to implement a superclass or manage route 
+//* informations in you won way. This setup not only simplifies the management
+//* of navigation states but also align the app's internal navigation with web UrL
+//* standards, supporting direct navigation to pages via URLs.
+class DessertRoutePath {
+  final int? id;
+  final bool isUnknown;
+
+  const DessertRoutePath.home()
+      : id = null,
+        isUnknown = false;
+
+  const DessertRoutePath.details(this.id) : isUnknown = false;
+
+  const DessertRoutePath.unknown()
+      : id = null,
+        isUnknown = true;
+
+  bool get isHome => id == null && !isUnknown;
+  bool get isDetails => id != null;
+}
+
 class CandyStoreApp extends StatefulWidget {
   const CandyStoreApp({super.key});
 
