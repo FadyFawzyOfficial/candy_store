@@ -102,3 +102,33 @@ class DessertsListScreen extends StatelessWidget {
     );
   }
 }
+
+class DessertDetailsScreen extends StatelessWidget {
+  final Dessert dessert;
+
+  const DessertDetailsScreen({super.key, required this.dessert});
+
+  @override
+  Widget build(context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Detail page for ${dessert.name}')),
+      body: Center(
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: SizedBox(
+                width: 250,
+                height: 250,
+                child: Image.asset(dessert.imageUrl),
+              ),
+            ),
+            Text(dessert.name, style: Theme.of(context).textTheme.titleLarge),
+            Text(dessert.description,
+                style: Theme.of(context).textTheme.titleMedium),
+          ],
+        ),
+      ),
+    );
+  }
+}
