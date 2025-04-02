@@ -56,6 +56,11 @@ class _CandyStoreAppState extends State<CandyStoreApp> {
               onTapped: _handleDessertTapped,
             ),
           ),
+          if (_selectedDessert != null)
+            MaterialPage(
+              key: ValueKey(_selectedDessert),
+              child: DessertDetailsScreen(dessert: _selectedDessert!),
+            ),
         ],
         onPopPage: (route, result) => route.didPop(result),
       ),
