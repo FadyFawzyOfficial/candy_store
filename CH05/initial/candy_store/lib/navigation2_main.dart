@@ -12,7 +12,7 @@ class Dessert {
 
 //! Represents the current state of the app navigation.
 //* We will handle all routes in the app with a single class. For advanced apps,
-//* you can use different classes to implement a superclass or manage route 
+//* you can use different classes to implement a superclass or manage route
 //* informations in you won way. This setup not only simplifies the management
 //* of navigation states but also align the app's internal navigation with web UrL
 //* standards, supporting direct navigation to pages via URLs.
@@ -32,6 +32,54 @@ class DessertRoutePath {
 
   bool get isHome => id == null && !isUnknown;
   bool get isDetails => id != null;
+}
+
+//! This Delegate is responsible for the following:
+//* 1. Rendering the current route as a widget.
+//* 2. Reacting to changes in the route path and updating the app's state and UI accordingly.
+//* 3. Managing the navigator key, which is essential for identifying the Navigator widget this delegate is working with.
+class DessertRouteDelegate extends RouterDelegate<DessertRoutePath>
+    with ChangeNotifier, PopNavigatorRouterDelegateMixin<DessertRoutePath> {
+  //! navigatorKey: Essential for keeping track of the Navigator state,
+  //! allowing the router to preform navigation actions such as pushing and popping routes.
+  @override
+  final GlobalKey<NavigatorState> navigatorKey;
+
+  //! _selectedDessert: Maintains the state of the currently selected dessert;
+  //! when a user selects a dessert from the list, this property is updated, which
+  //! then influences the route displayed to the user.
+  Dessert? _selectedDessert;
+
+  List<Dessert> desserts = [
+    const Dessert(
+      'Cupcake',
+      'A delicious cupcake with a variety of flavors and toppings',
+      'resources/images/cupcake.webp',
+    ),
+    const Dessert(
+      'Donut',
+      'A soft and sweet donut, glazed or filled with your favorite flavors',
+      'resources/images/donut.webp',
+    ),
+    const Dessert(
+      'Eclair',
+      'A long pastry filled with cream and topped with chocolate icing',
+      'resources/images/eclair.webp',
+    ),
+  ];
+
+  DessertRouteDelegate() : navigatorKey = GlobalKey<NavigatorState>();
+
+  // ToDo: We will handle those in next commit.
+  @override
+  Widget build(BuildContext context) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> setNewRoutePath(DessertRoutePath configuration) {
+    throw UnimplementedError();
+  }
 }
 
 class CandyStoreApp extends StatefulWidget {
