@@ -18,6 +18,26 @@ class CandyStoreApp extends StatefulWidget {
 }
 
 class _CandyStoreAppState extends State<CandyStoreApp> {
+  Dessert? _selectedDessert;
+
+  List<Dessert> desserts = [
+    const Dessert(
+      'Cupcake',
+      'A delicious cupcake with a variety of flavors and toppings',
+      'resources/images/cupcake.webp',
+    ),
+    const Dessert(
+      'Donut',
+      'A soft and sweet donut, glazed or filled with your favorite flavors',
+      'resources/images/donut.webp',
+    ),
+    const Dessert(
+      'Eclair',
+      'A long pastry filled with cream and topped with chocolate icing',
+      'resources/images/eclair.webp',
+    ),
+  ];
+
   @override
   void initState() {
     super.initState();
