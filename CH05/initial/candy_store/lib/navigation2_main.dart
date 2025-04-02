@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(const CandyStoreApp());
 
+class Dessert {
+  final String name;
+  final String description;
+  final String imageUrl;
+
+  const Dessert(this.name, this.description, this.imageUrl);
+}
+
 class CandyStoreApp extends StatefulWidget {
   const CandyStoreApp({super.key});
 
