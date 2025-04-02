@@ -48,12 +48,12 @@ class _CandyStoreAppState extends State<CandyStoreApp> {
     return MaterialApp(
       title: 'Candy Store',
       home: Navigator(
-        pages: const [
+        pages: [
           MaterialPage(
-            child: Scaffold(
-              body: Center(
-                child: Text('Welcome to Candy Store'),
-              ),
+            key: const ValueKey('DessertsListScreen'),
+            child: DessertsListScreen(
+              desserts: desserts,
+              onTapped: _handleDessertTapped,
             ),
           ),
         ],
@@ -61,6 +61,9 @@ class _CandyStoreAppState extends State<CandyStoreApp> {
       ),
     );
   }
+
+  void _handleDessertTapped(Dessert dessert) =>
+      setState(() => _selectedDessert = dessert);
 }
 
 class DessertsListScreen extends StatelessWidget {
@@ -78,6 +81,7 @@ class DessertsListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('All Desserts')),
       body: ListView.builder(
+        itemCount: desserts.length,
         itemBuilder: (context, index) {
           final dessert = desserts[index];
           return ListTile(
