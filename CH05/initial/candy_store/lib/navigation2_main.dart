@@ -62,3 +62,39 @@ class _CandyStoreAppState extends State<CandyStoreApp> {
     );
   }
 }
+
+class DessertsListScreen extends StatelessWidget {
+  final List<Dessert> desserts;
+  final ValueChanged<Dessert> onTapped;
+
+  const DessertsListScreen({
+    super.key,
+    required this.desserts,
+    required this.onTapped,
+  });
+
+  @override
+  Widget build(context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('All Desserts')),
+      body: ListView.builder(
+        itemBuilder: (context, index) {
+          final dessert = desserts[index];
+          return ListTile(
+            trailing: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: SizedBox(
+                width: 72,
+                height: 72,
+                child: Image.asset(dessert.imageUrl),
+              ),
+            ),
+            title: Text(dessert.name),
+            subtitle: Text(dessert.description),
+            onTap: () => onTapped(dessert),
+          );
+        },
+      ),
+    );
+  }
+}
