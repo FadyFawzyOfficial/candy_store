@@ -151,9 +151,39 @@ class DessertRouteDelegate extends RouterDelegate<DessertRoutePath>
     );
   }
 
+  //? The setNewRoutePath function is called by the Router when there’s a change
+  //? in the app’s navigation route. It’s an opportunity for the app to adjust
+  //? its state based on the new route information. We put all that into practice
+  //? in the following code block:
   @override
-  Future<void> setNewRoutePath(DessertRoutePath configuration) {
-    throw UnimplementedError();
+  Future<void> setNewRoutePath(DessertRoutePath configuration) async {
+    //! If the route leads to an unknown destination, the app resets the selected
+    //! dessert and flags it to show a 404-error page,
+    //! indicating that the requested page couldn’t be found.
+    if (configuration.isUnknown) {
+      _selectedDessert = null;
+      _show404 = true;
+      return;
+    }
+
+    //! If the route points to a dessert’s details page
+    if (configuration.isDetails) {
+      //! the app checks whether the dessert ID from the route is valid.
+      //! If it’s not (such as if the ID is out of range), the app prepares to show a 404 page.
+      if (configuration.id! < 0 || configuration.id! >= desserts.length) {
+        _show404 = true;
+        return;
+      }
+      //! Otherwise, it updates the selected dessert to match the ID from the route.
+      _selectedDessert = desserts[configuration.id!];
+
+      //! If the route is for the home page, the app resets the selected dessert,
+      //! as no specific dessert is being viewed.
+    } else {
+      _selectedDessert = null;
+    }
+
+    _show404 = false;
   }
 
   void _handleDessertTapped(Dessert dessert) {
