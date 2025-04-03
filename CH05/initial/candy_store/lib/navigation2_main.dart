@@ -277,12 +277,15 @@ class CandyStoreApp extends StatefulWidget {
 
 class _CandyStoreAppState extends State<CandyStoreApp> {
   final DessertRouteDelegate _routeDelegate = DessertRouteDelegate();
+  final DessertRouteInformationParser _routeInformationParser =
+      DessertRouteInformationParser();
 
   @override
   Widget build(context) {
     return MaterialApp.router(
       title: 'Candy Store',
       routerDelegate: _routeDelegate,
+      routeInformationParser: _routeInformationParser,
     );
   }
 }
