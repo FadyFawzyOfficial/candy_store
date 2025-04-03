@@ -222,3 +222,28 @@ class DessertDetailsScreen extends StatelessWidget {
     );
   }
 }
+
+class UnknownScreen extends StatelessWidget {
+  const UnknownScreen({super.key});
+
+  @override
+  Widget build(context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(
+        child: Column(
+          children: [
+            Text(
+              '404 NOT FOUND',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            Text(
+              'The desert you are looking for is eaten or it was never here! 👀',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
