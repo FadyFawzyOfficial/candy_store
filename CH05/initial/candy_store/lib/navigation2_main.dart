@@ -34,6 +34,82 @@ class DessertRoutePath {
   bool get isDetails => id != null;
 }
 
+class DessertRouteInformationParser
+    extends RouteInformationParser<DessertRoutePath> {
+  //! The primary method, parseRouteInformation, begins by extracting the URI from
+  //! the RouteInformation object to get the URL components.
+  //! This step is essential because it breaks down the URL into manageable parts
+  //! for further analysis.
+  @override
+  Future<DessertRoutePath> parseRouteInformation(
+      RouteInformation routeInformation) async {
+    final uri = routeInformation.uri;
+    // Handle '/'
+    //! The method then checks whether the path segments are empty,
+    //! which indicates the home page (/). If this condition is met, it returns a
+    //! DessertRoutePath.home() object, directing the app to the home page where all desserts are listed.
+    if (uri.pathSegments.isEmpty) return const DessertRoutePath.home();
+
+    // Handle '/dessert/:id'
+    //! For URLs with two path segments,
+    if (uri.pathSegments.length == 2) {
+      //! the method first ensures that the initial segment is dessert.
+      //! This check helps verify that the URL is intended for a dessert details page.
+      if (uri.pathSegments[0] != 'dessert') {
+        //! If the first segment is not dessert, it returns DessertRoutePath.unknown(),
+        //! signaling an invalid or unknown route.
+        return const DessertRoutePath.unknown();
+      }
+
+      //! If the initial segment is correct, the method attempts to parse the
+      //! second segment as an integer, representing the dessert ID.
+      var id = int.tryParse(uri.pathSegments[1]);
+      //* If parsing fails, it again returns DessertRoutePath.unknown().
+      //* Any other URL pattern that does not match these conditions is also
+      //* treated as unknown, with the method returning DessertRoutePath.unknown().
+      if (id == null) return const DessertRoutePath.unknown();
+      //! Successfully parsing this segment allows the method to return a
+      //! DessertRoutePath.details(id) object, guiding the app to display
+      //! details for the specified dessert.
+      return DessertRoutePath.details(id);
+    }
+
+    // Handle unknown routes
+    return const DessertRoutePath.unknown();
+  }
+
+  //! The restoreRouteINformation method complements this by converting a
+  //! DessertRoutePath back into RouteInformation.
+  @override
+  RouteInformation? restoreRouteInformation(DessertRoutePath configuration) {
+    //! If the path configuration indicates an unknown route, it generates a RouteInformation object with the /404 URI.
+    if (configuration.isUnknown) {
+      return RouteInformation(uri: Uri.parse('/404'));
+    }
+
+    //! ensuring the browser's address bar reflects navigation to the home page.
+    if (configuration.isHome) {
+      return RouteInformation(uri: Uri.parse('/'));
+    }
+
+    //* When dealing with details pages, it creates a RouteInformation object with
+    //* the /dessert/{id} URI, accurately representing the dessert details being viewed.
+    if (configuration.isDetails) {
+      return RouteInformation(
+        uri: Uri.parse('/dessert/${configuration.id}'),
+      );
+    }
+
+    //! If the path configuration doesn't match and known patters, it returns null
+    //! indicating no valid route.
+    return null;
+
+    //! By implementing these methods, the DessertRouteInformationParser ensures
+    //! that the app can correctly interpret and respond to various URL structures,
+    //! maintaining a smooth and intuitive user navigation experience.
+  }
+}
+
 //! This Delegate is responsible for the following:
 //* 1. Rendering the current route as a widget.
 //* 2. Reacting to changes in the route path and updating the app's state and UI accordingly.
