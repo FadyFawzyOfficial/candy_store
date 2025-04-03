@@ -50,47 +50,6 @@ class DessertRouteDelegate extends RouterDelegate<DessertRoutePath>
   //! then influences the route displayed to the user.
   Dessert? _selectedDessert;
 
-  List<Dessert> desserts = [
-    const Dessert(
-      'Cupcake',
-      'A delicious cupcake with a variety of flavors and toppings',
-      'resources/images/cupcake.webp',
-    ),
-    const Dessert(
-      'Donut',
-      'A soft and sweet donut, glazed or filled with your favorite flavors',
-      'resources/images/donut.webp',
-    ),
-    const Dessert(
-      'Eclair',
-      'A long pastry filled with cream and topped with chocolate icing',
-      'resources/images/eclair.webp',
-    ),
-  ];
-
-  DessertRouteDelegate() : navigatorKey = GlobalKey<NavigatorState>();
-
-  // ToDo: We will handle those in next commit.
-  @override
-  Widget build(BuildContext context) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> setNewRoutePath(DessertRoutePath configuration) {
-    throw UnimplementedError();
-  }
-}
-
-class CandyStoreApp extends StatefulWidget {
-  const CandyStoreApp({super.key});
-
-  @override
-  State<CandyStoreApp> createState() => _CandyStoreAppState();
-}
-
-class _CandyStoreAppState extends State<CandyStoreApp> {
-  Dessert? _selectedDessert;
   //! To manage error states, such as navigation to a non-existent dessert or
   //! an invalid URL, we introduce show404 flag.
   //! This flag is set to true when the app encounters an unknown route,
@@ -114,10 +73,7 @@ class _CandyStoreAppState extends State<CandyStoreApp> {
     ),
   ];
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  DessertRouteDelegate() : navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(context) {
@@ -129,7 +85,7 @@ class _CandyStoreAppState extends State<CandyStoreApp> {
             key: const ValueKey('DessertsListScreen'),
             child: DessertsListScreen(
               desserts: desserts,
-              onTapped: _handleDessertTapped,
+              onTapped: (dessert) {},
             ),
           ),
           if (_selectedDessert != null)
@@ -148,10 +104,10 @@ class _CandyStoreAppState extends State<CandyStoreApp> {
           if (!route.didPop(result)) return false;
 
           // Update the list of pages by setting _selectedDessert to null
-          setState(() {
-            _selectedDessert = null;
-            _show404 = false;
-          });
+
+          _selectedDessert = null;
+          _show404 = false;
+          notifyListeners();
 
           return true;
         },
@@ -159,8 +115,24 @@ class _CandyStoreAppState extends State<CandyStoreApp> {
     );
   }
 
-  void _handleDessertTapped(Dessert dessert) =>
-      setState(() => _selectedDessert = dessert);
+  @override
+  Future<void> setNewRoutePath(DessertRoutePath configuration) {
+    throw UnimplementedError();
+  }
+}
+
+class CandyStoreApp extends StatefulWidget {
+  const CandyStoreApp({super.key});
+
+  @override
+  State<CandyStoreApp> createState() => _CandyStoreAppState();
+}
+
+class _CandyStoreAppState extends State<CandyStoreApp> {
+  @override
+  Widget build(context) {
+    return MaterialApp.router(title: 'Candy Store');
+  }
 }
 
 class DessertsListScreen extends StatelessWidget {
@@ -229,6 +201,9 @@ class DessertDetailsScreen extends StatelessWidget {
     );
   }
 }
+
+// void _handleDessertTapped(Dessert dessert) =>
+//       setState(() => _selectedDessert = dessert);
 
 class UnknownScreen extends StatelessWidget {
   const UnknownScreen({super.key});
