@@ -38,6 +38,18 @@ class DessertRoutePath {
 //* 1. Rendering the current route as a widget.
 //* 2. Reacting to changes in the route path and updating the app's state and UI accordingly.
 //* 3. Managing the navigator key, which is essential for identifying the Navigator widget this delegate is working with.
+
+//! Now, our DessertRouteDelegate is more than just a simple class; it's a
+//! ChangeNotifier. This change allows us to use notifyListeners instead of setState
+//! for updating the app's state.
+//! notifyListeners tells everyone listening (such as our Router widget) that something
+//! has changed, so they should look again and update what they're showing.
+//! This ensures that the app reacts properly. It updates the displayed page and
+//! the URL in the browser, keeping everything in sync.
+
+//! This is part of moving from managing states within a widget to using broader
+//! app-level state management. It makes our app smarter about when to update
+//! and redraw screens, improving performance and user experience.
 class DessertRouteDelegate extends RouterDelegate<DessertRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<DessertRoutePath> {
   //! navigatorKey: Essential for keeping track of the Navigator state,
@@ -75,11 +87,35 @@ class DessertRouteDelegate extends RouterDelegate<DessertRoutePath>
 
   DessertRouteDelegate() : navigatorKey = GlobalKey<NavigatorState>();
 
+  //! override the currentConfiguration getter in DessertRouterDelegate to
+  //! accurately reflect the app’s current state in the URL.
+  //! This involves returning a DessertRoutePath.unknown() when show404 is true,
+  //! a DessertRoutePath.home() when no dessert is selected,
+  //! and a DessertRoutePath.details() with the correct index when a dessert is selected.
+  @override
+  DessertRoutePath? get currentConfiguration {
+    if (_show404) return const DessertRoutePath.unknown();
+    return _selectedDessert == null
+        ? const DessertRoutePath.home()
+        : DessertRoutePath.details(desserts.indexOf(_selectedDessert!));
+  }
+
   @override
   Widget build(context) {
     return MaterialApp(
       title: 'Candy Store',
+      //! We have a Navigator widget in our app that uses a special key, navigatorKey,
+      //! to keep track of the navigation history and state.
+      //! This Navigator widget decides what screen or page to show based on the
+      //! current app state.
+      //* It starts with showing a list of desserts on the DessertsListScreen.
+      //* Here you can choose any dessert to see more details.
+      //* If there's an error or the page can't be found (such as when a wrong URL is entered),
+      //* it shows the UnknownScreen to let you know that something went wrong.
+      //* When you select a dessert, it shows the DessertDetailsScreen to give
+      //* you more info about the chosen dessert.
       home: Navigator(
+        key: navigatorKey,
         pages: [
           MaterialPage(
             key: const ValueKey('DessertsListScreen'),
