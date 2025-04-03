@@ -137,10 +137,17 @@ class _CandyStoreAppState extends State<CandyStoreApp> {
               key: ValueKey(_selectedDessert),
               child: DessertDetailsScreen(dessert: _selectedDessert!),
             ),
+          //! Update your navigation logic to include the UnknownScreen when the show404 flag is true.
+          if (_show404)
+            const MaterialPage(
+              key: ValueKey('UnknownScreen'),
+              child: UnknownScreen(),
+            )
         ],
         onPopPage: (route, result) {
           if (!route.didPop(result)) return false;
 
+          // Update the list of pages by setting _selectedDessert to null
           setState(() {
             _selectedDessert = null;
             _show404 = false;
