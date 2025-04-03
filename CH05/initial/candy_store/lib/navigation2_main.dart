@@ -91,6 +91,10 @@ class CandyStoreApp extends StatefulWidget {
 
 class _CandyStoreAppState extends State<CandyStoreApp> {
   Dessert? _selectedDessert;
+  //! To manage error states, such as navigation to a non-existent dessert or
+  //! an invalid URL, we introduce show404 flag.
+  //! This flag is set to true when the app encounters an unknown route,
+  bool _show404 = false;
 
   List<Dessert> desserts = [
     const Dessert(
@@ -134,7 +138,16 @@ class _CandyStoreAppState extends State<CandyStoreApp> {
               child: DessertDetailsScreen(dessert: _selectedDessert!),
             ),
         ],
-        onPopPage: (route, result) => route.didPop(result),
+        onPopPage: (route, result) {
+          if (!route.didPop(result)) return false;
+
+          setState(() {
+            _selectedDessert = null;
+            _show404 = false;
+          });
+
+          return true;
+        },
       ),
     );
   }
