@@ -121,7 +121,7 @@ class DessertRouteDelegate extends RouterDelegate<DessertRoutePath>
             key: const ValueKey('DessertsListScreen'),
             child: DessertsListScreen(
               desserts: desserts,
-              onTapped: (dessert) {},
+              onTapped: _handleDessertTapped,
             ),
           ),
           if (_selectedDessert != null)
@@ -155,6 +155,11 @@ class DessertRouteDelegate extends RouterDelegate<DessertRoutePath>
   Future<void> setNewRoutePath(DessertRoutePath configuration) {
     throw UnimplementedError();
   }
+
+  void _handleDessertTapped(Dessert dessert) {
+    _selectedDessert = dessert;
+    notifyListeners();
+  }
 }
 
 class CandyStoreApp extends StatefulWidget {
@@ -165,9 +170,14 @@ class CandyStoreApp extends StatefulWidget {
 }
 
 class _CandyStoreAppState extends State<CandyStoreApp> {
+  final DessertRouteDelegate _routeDelegate = DessertRouteDelegate();
+
   @override
   Widget build(context) {
-    return MaterialApp.router(title: 'Candy Store');
+    return MaterialApp.router(
+      title: 'Candy Store',
+      routerDelegate: _routeDelegate,
+    );
   }
 }
 
@@ -237,9 +247,6 @@ class DessertDetailsScreen extends StatelessWidget {
     );
   }
 }
-
-// void _handleDessertTapped(Dessert dessert) =>
-//       setState(() => _selectedDessert = dessert);
 
 class UnknownScreen extends StatelessWidget {
   const UnknownScreen({super.key});
