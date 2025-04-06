@@ -6,3 +6,7 @@ sealed class ProductsEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+final class FetchProducts extends ProductsEvent {
+  const FetchProducts();
+}
