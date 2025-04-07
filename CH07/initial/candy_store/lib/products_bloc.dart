@@ -1,17 +1,23 @@
-import 'package:candy_store/delayed_result.dart';
-import 'package:candy_store/product_list_item.dart';
-import 'package:candy_store/product_repository.dart';
-import 'package:candy_store/products_bloc_event.dart';
-import 'package:candy_store/products_bloc_state.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
-  final ProductRepository _productRepository;
+import 'app_product_repository.dart';
+import 'delayed_result.dart';
+import 'local_product_repository.dart';
+import 'main.dart';
+import 'network_product_repository.dart';
+import 'product_list_item.dart';
 
-  ProductsBloc({
-    required ProductRepository productRepository,
-  })  : _productRepository = productRepository,
-        super(const ProductsState()) {
+part 'products_event.dart';
+part 'products_state.dart';
+
+class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
+  late final _productRepository = AppProductRepository(
+    remoteDataSource: NetworkProductRepository(apiService),
+    localProductRepository: LocalProductRepository(hiveService.getProductBox()),
+  );
+
+  ProductsBloc() : super(const ProductsState()) {
     on<FetchProducts>(_onFetchProducts);
   }
 
@@ -21,7 +27,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ) async {
     try {
       emit(state.copyWith(loadingResult: const DelayedResult.inProgress()));
-      final products = await _productRepository.fetchProducts();
+      final products = await _productRepository.fetchProduct();
       emit(
         state.copyWith(
           items: products
@@ -38,8 +44,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         ),
       );
       emit(state.copyWith(loadingResult: const DelayedResult.idle()));
-    } on Exception catch (ex) {
-      emit(state.copyWith(loadingResult: DelayedResult.fromError(ex)));
+    } on Exception catch (e) {
+      emit(state.copyWith(loadingResult: DelayedResult.fromError(e)));
     }
   }
 }
