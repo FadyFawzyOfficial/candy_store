@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 
-import 'cart_view_model_provider.dart';
 import 'product_list_item.dart';
 
 class ProductDetailsPage extends StatelessWidget {
   final ProductListItem product;
 
-  const ProductDetailsPage({super.key, required this.product});
+  //! Ideally, `ProductDetailsPage` would have it's own bloc
+  //! with it's own state & functionality, instead of relying on callbacks
+  final Function(ProductListItem item) onAddToCart;
+
+  const ProductDetailsPage({
+    super.key,
+    required this.product,
+    required this.onAddToCart,
+  });
 
   @override
   Widget build(context) {
-    final cartViewModel = CartViewModelProvider.of(context);
     return Scaffold(
       appBar: AppBar(title: Text(product.name)),
       body: Stack(
@@ -71,7 +77,7 @@ class ProductDetailsPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(24, 0, 24, 16),
               child: ElevatedButton(
-                onPressed: () => cartViewModel.addToCart(product),
+                onPressed: () => onAddToCart(product),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 32,
