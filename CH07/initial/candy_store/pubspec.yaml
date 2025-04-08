@@ -46,6 +46,9 @@ dependencies:
   # Extension for Hive. Makes it easier to use Hive in Flutter apps.
   hive_flutter: ^1.1.0
 
+dependency_overrides:
+  win32: 5.9.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
