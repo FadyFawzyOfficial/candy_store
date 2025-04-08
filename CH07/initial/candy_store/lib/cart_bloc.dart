@@ -2,17 +2,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'cart_event.dart';
 import 'cart_info.dart';
-import 'cart_model.dart';
+import 'cart_repository.dart';
 import 'cart_state.dart';
 import 'delayed_result.dart';
 
 //* 1. Now, instead of extending Cubit, we extend Bloc. Note that in the diamond
 //* brackets, we also specify the parent class of the events that this bloc will handle.
 class CartBloc extends Bloc<CartEvent, CartState> {
-  final CartModel _cartModel = CartModel();
+  final CartRepository _cartRepository;
 
-  CartBloc()
-      : super(
+  CartBloc({required CartRepository cartRepository})
+      : _cartRepository = cartRepository,
+        super(
           const CartState(
             items: {},
             totalPrice: 0,
@@ -39,7 +40,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       emit(state.copyWith(loadingResult: const DelayedResult.inProgress()));
       //* 3. When we load our bloc, we will read the initial state of our cart
       //* from the Model that we created previously.
-      final cartInfo = await _cartModel.cartInfoFuture;
+      final cartInfo = await _cartRepository.cartInfoFuture;
       // ToDo: Should actually copy the Map and not just the reference, which we
       // will do at the end ot this chapter
       emit(
@@ -56,7 +57,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       //! It handles all of the stream subscriptions and un-subscriptions
       //! for us and lets us deal with the data that we care about.
       await emit.onEach(
-        _cartModel.cartInfoStream,
+        _cartRepository.cartInfoStream,
         onData: (CartInfo cartInfo) => emit(
           state.copyWith(
             items: cartInfo.items,
@@ -79,7 +80,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Future<void> _onAddItem(AddItem event, Emitter emit) async {
     try {
       emit(state.copyWith(loadingResult: const DelayedResult.inProgress()));
-      await _cartModel.addToCart(event.item);
+      await _cartRepository.addToCart(event.item);
       emit(state.copyWith(loadingResult: const DelayedResult.idle()));
     } on Exception catch (e) {
       emit(state.copyWith(loadingResult: DelayedResult.fromError(e)));
@@ -89,7 +90,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Future<void> _onRemoveItem(RemoveItem event, Emitter emit) async {
     try {
       emit(state.copyWith(loadingResult: const DelayedResult.inProgress()));
-      await _cartModel.removeFromCart(event.item);
+      await _cartRepository.removeFromCart(event.item);
       emit(state.copyWith(loadingResult: const DelayedResult.idle()));
     } on Exception catch (e) {
       emit(state.copyWith(loadingResult: DelayedResult.fromError(e)));

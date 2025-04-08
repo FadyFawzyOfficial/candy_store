@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'cart_list_item.dart';
-import 'cart_model.dart';
+import 'cart_repository.dart';
 import 'cart_state.dart';
 import 'delayed_result.dart';
 import 'product_list_item.dart';
@@ -10,15 +10,16 @@ import 'product_list_item.dart';
 //* Pay attention to how we also specify CartState in the angle bracket that
 //* we will be working with. Here, Cubit supports the state out of the box.
 class CartCubit extends Cubit<CartState> {
-  final CartModel _cartModel = CartModel();
+  final CartRepository _cartRepository;
 
   //* 2. It also expects the state from the moment of its creation so that it always
   //* has relevant information and the consumer of this state can rely on it.
   //* To do that, we need to pass the initial state to the super constructor.
   //* We can do this internally, or if we want, we can allow the callers of our
   //* constructor to pass their own value. This is up to us and our use case.
-  CartCubit()
-      : super(
+  CartCubit({required CartRepository cartRepository})
+      : _cartRepository = cartRepository,
+        super(
           const CartState(
             items: {},
             totalPrice: 0,
@@ -26,7 +27,7 @@ class CartCubit extends Cubit<CartState> {
             loadingResult: DelayedResult.idle(),
           ),
         ) {
-    _cartModel.cartInfoStream.listen(
+    _cartRepository.cartInfoStream.listen(
       //* 3. Here, Cubit has a special function that we need to call to notify
       //* our subscribers of state changes. Similarly, we called notifyListeners
       //* on ChangeNotifier, but now, we need to call emit and also pass the state to this emitter.
@@ -48,7 +49,7 @@ class CartCubit extends Cubit<CartState> {
       //* We don’t need to call notifyListeners after any internal state changes
       //* as the emit function does everything.
       emit(state.copyWith(loadingResult: const DelayedResult.inProgress()));
-      final cartInfo = await _cartModel.cartInfoFuture;
+      final cartInfo = await _cartRepository.cartInfoFuture;
       // ToDo: Should actually copy the Map and not just the reference, which
       // we will do at the end of this chapter.
 
@@ -67,7 +68,7 @@ class CartCubit extends Cubit<CartState> {
   Future<void> addToCart(ProductListItem item) async {
     try {
       emit(state.copyWith(loadingResult: const DelayedResult.inProgress()));
-      await _cartModel.addToCart(item);
+      await _cartRepository.addToCart(item);
       emit(state.copyWith(loadingResult: const DelayedResult.idle()));
     } on Exception catch (e) {
       emit(state.copyWith(loadingResult: DelayedResult.fromError(e)));
@@ -77,7 +78,7 @@ class CartCubit extends Cubit<CartState> {
   Future<void> removeFromCart(CartListItem item) async {
     try {
       emit(state.copyWith(loadingResult: const DelayedResult.inProgress()));
-      await _cartModel.removeFromCart(item);
+      await _cartRepository.removeFromCart(item);
       emit(state.copyWith(loadingResult: const DelayedResult.idle()));
     } on Exception catch (e) {
       emit(state.copyWith(loadingResult: DelayedResult.fromError(e)));
@@ -87,10 +88,10 @@ class CartCubit extends Cubit<CartState> {
   void clearError() =>
       emit(state.copyWith(loadingResult: const DelayedResult.idle()));
 
-  @override
-  Future<void> close() async {
-    //* 5. Finally, Cubit has its own close function where we can dispose of any resources that we have acquired.
-    _cartModel.dispose();
-    super.close();
-  }
+  // @override
+  // Future<void> close() async {
+  //   //* 5. Finally, Cubit has its own close function where we can dispose of any resources that we have acquired.
+  //   _cartRepository.dispose();
+  //   super.close();
+  // }
 }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'api_service.dart';
 import 'cart_page.dart';
+import 'cart_repository.dart';
 import 'hive_service.dart';
+import 'in_memory_cart_repository.dart';
 import 'main_page.dart';
 
 final hiveService = HiveService();
@@ -12,16 +15,19 @@ final apiService = ApiService();
 Future<void> main() async {
   await hiveService.initializeHive();
   runApp(
-    MaterialApp(
-      title: 'Candy Store',
-      theme: ThemeData(
-        primarySwatch: Colors.lime,
+    RepositoryProvider<CartRepository>(
+      create: (_) => InMemoryCartRepository(),
+      child: MaterialApp(
+        title: 'Candy Store',
+        theme: ThemeData(
+          primarySwatch: Colors.lime,
+        ),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => MainPage.witBloc(),
+          '/cart': (context) => CartPage.withBloc(),
+        },
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => MainPage.witBloc(),
-        '/cart': (context) => CartPage.withBloc(),
-      },
     ),
   );
 }

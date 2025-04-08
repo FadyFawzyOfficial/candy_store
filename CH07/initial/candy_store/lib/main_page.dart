@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'cart_bloc.dart';
 import 'cart_button.dart';
 import 'cart_event.dart';
+import 'cart_repository.dart';
 import 'products_page.dart';
 
 class MainPage extends StatelessWidget {
@@ -11,7 +12,9 @@ class MainPage extends StatelessWidget {
 
   static Widget witBloc() {
     return BlocProvider(
-      create: (context) => CartBloc()..add(const Load()),
+      create: (context) =>
+          CartBloc(cartRepository: context.read<CartRepository>())
+            ..add(const Load()),
       child: const MainPage(),
     );
   }

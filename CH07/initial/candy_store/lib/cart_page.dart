@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'cart_bloc.dart';
 import 'cart_event.dart';
 import 'cart_list_item_view.dart';
+import 'cart_repository.dart';
 import 'cart_state.dart';
 
 class CartPage extends StatefulWidget {
@@ -12,8 +13,13 @@ class CartPage extends StatefulWidget {
   @override
   State<CartPage> createState() => _CartPageState();
 
-  static Widget withBloc() => BlocProvider<CartBloc>(
-      create: (context) => CartBloc(), child: const CartPage());
+  static Widget withBloc() {
+    return BlocProvider<CartBloc>(
+      create: (context) =>
+          CartBloc(cartRepository: context.read<CartRepository>()),
+      child: const CartPage(),
+    );
+  }
 }
 
 class _CartPageState extends State<CartPage> {
