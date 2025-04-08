@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+//! We create such a class once and then we can reuse it every time in all of our
+//! Cubit or Bloc state classes.
 class DelayedResult<T> extends Equatable {
   final T? value;
   final Exception? error;
@@ -26,9 +28,7 @@ class DelayedResult<T> extends Equatable {
         isInProgress = false;
 
   bool get isSuccessful => value != null;
-
   bool get isError => error != null;
-
   bool get isIdle => value == null && error == null && !isInProgress;
 
   @override

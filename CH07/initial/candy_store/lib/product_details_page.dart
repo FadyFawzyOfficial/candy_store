@@ -1,11 +1,12 @@
-import 'package:candy_store/product_list_item.dart';
 import 'package:flutter/material.dart';
+
+import 'product_list_item.dart';
 
 class ProductDetailsPage extends StatelessWidget {
   final ProductListItem product;
 
-  // Ideally, `ProductDetailsPage` would have it's own bloc
-  // with it's own state & functionality, instead of relying on callbacks
+  //! Ideally, `ProductDetailsPage` would have it's own bloc
+  //! with it's own state & functionality, instead of relying on callbacks
   final Function(ProductListItem item) onAddToCart;
 
   const ProductDetailsPage({
@@ -15,11 +16,9 @@ class ProductDetailsPage extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(product.name),
-      ),
+      appBar: AppBar(title: Text(product.name)),
       body: Stack(
         fit: StackFit.expand,
         children: [
