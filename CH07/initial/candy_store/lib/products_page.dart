@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'cart_bloc.dart';
 import 'cart_event.dart';
 import 'product_list_item_view.dart';
+import 'product_repository.dart';
 import 'products_bloc.dart';
 
 class ProductsPage extends StatelessWidget {
@@ -12,7 +13,9 @@ class ProductsPage extends StatelessWidget {
   @override
   Widget build(context) {
     return BlocProvider(
-      create: (context) => ProductsBloc()..add(const FetchProducts()),
+      create: (context) =>
+          ProductsBloc(productRepository: context.read<ProductRepository>())
+            ..add(const FetchProducts()),
       child: const ProductsView(),
     );
   }
