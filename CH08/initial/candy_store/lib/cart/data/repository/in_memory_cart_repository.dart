@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'cart_info.dart';
-import 'cart_list_item.dart';
-import 'cart_repository.dart';
-import 'product_list_item.dart';
+import '../../domain/model/cart_info.dart';
+import '../../domain/model/cart_list_item.dart';
+import '../../domain/repository/cart_repository.dart';
+import '../../../product_list_item.dart';
 
 class InMemoryCartRepository implements CartRepository {
   final CartInfo _cartInfo = CartInfo(

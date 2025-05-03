@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import 'cart_list_item.dart';
-import 'delayed_result.dart';
+import '../../domain/model/cart_list_item.dart';
+import '../../../delayed_result.dart';
 
 class CartState extends Equatable {
   final Map<String, CartListItem> items;

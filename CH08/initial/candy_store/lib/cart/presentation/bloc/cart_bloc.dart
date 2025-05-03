@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'cart_event.dart';
-import 'cart_info.dart';
-import 'cart_repository.dart';
+import '../../domain/model/cart_info.dart';
+import '../../domain/repository/cart_repository.dart';
 import 'cart_state.dart';
-import 'delayed_result.dart';
+import '../../../delayed_result.dart';
 
 //* 1. Now, instead of extending Cubit, we extend Bloc. Note that in the diamond
 //* brackets, we also specify the parent class of the events that this bloc will handle.
