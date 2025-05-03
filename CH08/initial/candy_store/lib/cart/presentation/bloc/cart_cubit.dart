@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'cart_list_item.dart';
-import 'cart_repository.dart';
+import '../../../cart_list_item.dart';
+import '../../../cart_repository.dart';
 import 'cart_state.dart';
-import 'delayed_result.dart';
-import 'product_list_item.dart';
+import '../../../delayed_result.dart';
+import '../../../product_list_item.dart';
 
 //* 1. First of all, instead of extending ChangeNotifier, we now extend Cubit.
 //* Pay attention to how we also specify CartState in the angle bracket that

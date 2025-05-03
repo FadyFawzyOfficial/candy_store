@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'cart_bloc.dart';
-import 'cart_event.dart';
-import 'cart_list_item_view.dart';
-import 'cart_repository.dart';
-import 'cart_state.dart';
+import '../bloc/cart_bloc.dart';
+import '../bloc/cart_event.dart';
+import '../widget/cart_list_item_view.dart';
+import '../../../cart_repository.dart';
+import '../bloc/cart_state.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
