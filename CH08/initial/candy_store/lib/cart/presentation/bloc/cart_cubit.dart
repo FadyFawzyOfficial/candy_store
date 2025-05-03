@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../cart_list_item.dart';
-import '../../../cart_repository.dart';
+import '../../domain/model/cart_list_item.dart';
+import '../../domain/repository/cart_repository.dart';
 import 'cart_state.dart';
 import '../../../delayed_result.dart';
 import '../../../product_list_item.dart';

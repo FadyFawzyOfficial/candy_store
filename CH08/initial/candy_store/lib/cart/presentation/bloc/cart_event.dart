@@ -1,4 +1,4 @@
-import '../../../cart_list_item.dart';
+import '../../domain/model/cart_list_item.dart';
 import '../../../product_list_item.dart';
 
 //! We will have the parent as a sealed class, which will act as the umbrella type

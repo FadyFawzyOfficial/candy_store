@@ -1,4 +1,4 @@
-import 'package:candy_store/cart_list_item.dart';
+import 'package:candy_store/cart/domain/model/cart_list_item.dart';
 import 'package:candy_store/cart_model.dart';
 import 'package:candy_store/cart/presentation/bloc/cart_state.dart';
 import 'package:candy_store/delayed_result.dart';

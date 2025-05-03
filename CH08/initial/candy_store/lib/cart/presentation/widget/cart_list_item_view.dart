@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/cart_bloc.dart';
 import '../bloc/cart_event.dart';
-import '../../../cart_list_item.dart';
+import '../../domain/model/cart_list_item.dart';
 
 class CartListItemView extends StatelessWidget {
   final CartListItem item;
