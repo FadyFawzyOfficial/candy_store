@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../delayed_result.dart';
+import '../../../common/model/delayed_result.dart';
 import '../../domain/model/product_list_item.dart';
 import '../../domain/repository/product_repository.dart';
 

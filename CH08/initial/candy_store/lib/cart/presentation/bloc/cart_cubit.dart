@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/model/cart_list_item.dart';
 import '../../domain/repository/cart_repository.dart';
 import 'cart_state.dart';
-import '../../../delayed_result.dart';
+import '../../../common/model/delayed_result.dart';
 import '../../../product/domain/model/product_list_item.dart';
 
 //* 1. First of all, instead of extending ChangeNotifier, we now extend Cubit.
