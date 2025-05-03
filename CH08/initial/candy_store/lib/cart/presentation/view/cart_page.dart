@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../checkout/presentation/view/checkout_flow.dart';
+import '../../domain/repository/cart_repository.dart';
 import '../bloc/cart_bloc.dart';
 import '../bloc/cart_event.dart';
-import '../widget/cart_list_item_view.dart';
-import '../../domain/repository/cart_repository.dart';
 import '../bloc/cart_state.dart';
+import '../widget/cart_list_item_view.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -101,22 +102,29 @@ class _CartPageState extends State<CartPage> {
                               color: Colors.black,
                             ),
                           ),
-                          state.loadingResult.isInProgress
-                              ? const SizedBox(
-                                  width: 24,
-                                  height: 24,
-                                  child: CircularProgressIndicator(
-                                    color: Colors.black,
-                                  ),
-                                )
-                              : Text(
-                                  '${state.totalPrice} €',
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
+                          if (state.loadingResult.isInProgress)
+                            const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                color: Colors.black,
+                              ),
+                            )
+                          else ...[
+                            Text(
+                              '${state.totalPrice} €',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: _initCheckout,
+                              icon: const Icon(Icons.payment),
+                              color: Colors.black,
+                            ),
+                          ],
                         ],
                       ),
                       ElevatedButton(
@@ -133,4 +141,7 @@ class _CartPageState extends State<CartPage> {
       ),
     );
   }
+
+  void _initCheckout() => Navigator.push(
+      context, MaterialPageRoute(builder: (_) => const CheckoutFlow()));
 }
