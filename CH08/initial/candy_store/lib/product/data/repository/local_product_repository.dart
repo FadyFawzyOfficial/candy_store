@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 
-import 'product.dart';
-import 'product_repository.dart';
+import '../../domain/model/product.dart';
+import '../../domain/repository/product_repository.dart';
 
 class LocalProductRepository implements ProductRepository {
   final Box<Product> _productBox;

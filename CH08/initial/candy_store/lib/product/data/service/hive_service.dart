@@ -1,6 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'product.dart';
+import '../../domain/model/product.dart';
 
 class HiveService {
   Future<void> initializeHive() async {

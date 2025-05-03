@@ -1,6 +1,6 @@
 import '../model/cart_info.dart';
 import '../model/cart_list_item.dart';
-import '../../../product_list_item.dart';
+import '../../../product/domain/model/product_list_item.dart';
 
 //! First, we will create an interface called CartRepository that includes all
 //! the public methods and getters from the CartModel.

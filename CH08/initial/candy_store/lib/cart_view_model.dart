@@ -2,7 +2,7 @@ import 'package:candy_store/cart/domain/model/cart_list_item.dart';
 import 'package:candy_store/cart_model.dart';
 import 'package:candy_store/cart/presentation/bloc/cart_state.dart';
 import 'package:candy_store/delayed_result.dart';
-import 'package:candy_store/product_list_item.dart';
+import 'package:candy_store/product/domain/model/product_list_item.dart';
 import 'package:flutter/foundation.dart';
 
 class CartViewModel extends ChangeNotifier {
