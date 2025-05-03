@@ -10,7 +10,7 @@ import 'cart/data/repository/in_memory_cart_repository.dart';
 import 'local_product_repository.dart';
 import 'main_page.dart';
 import 'network_product_repository.dart';
-import 'product_repository.dart';
+import 'product/domain/repository/product_repository.dart';
 
 // At this point, all of the code is in the `lib` folder and we will structure it in Part 3
 Future<void> main() async {

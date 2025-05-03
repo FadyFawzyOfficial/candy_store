@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../view/product_details_page.dart';
-import '../../../product_list_item.dart';
+import '../../domain/model/product_list_item.dart';
 
 class ProductListItemView extends StatelessWidget {
   final ProductListItem item;
