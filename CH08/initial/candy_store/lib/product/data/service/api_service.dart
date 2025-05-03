@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 
-import 'product/domain/model/product.dart';
+import '../../domain/model/product.dart';
 
 class ApiService {
   final String _baseUrl = 'https://api.example.com/candystore';

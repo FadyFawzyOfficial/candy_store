@@ -1,7 +1,7 @@
 import 'local_product_repository.dart';
 import 'network_product_repository.dart';
-import 'product/domain/model/product.dart';
-import 'product/domain/repository/product_repository.dart';
+import '../../domain/model/product.dart';
+import '../../domain/repository/product_repository.dart';
 
 //! In this AppProductRepository class, we inject both the local and API data
 //! sources through its constructor. When the fetchProducts method is called,
