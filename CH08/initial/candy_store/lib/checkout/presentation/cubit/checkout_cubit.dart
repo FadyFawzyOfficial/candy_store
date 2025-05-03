@@ -15,6 +15,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
         super(const CheckoutState(
           paymentMethods: [],
           checkoutResult: DelayedResult.idle(),
+          selectedPaymentMethod: 'none',
         ));
 
   void loadPaymentMethods() async {
@@ -33,5 +34,9 @@ class CheckoutCubit extends Cubit<CheckoutState> {
       }
       emit(state.copyWith(checkoutResult: DelayedResult.fromError(e)));
     }
+  }
+
+  void selectPaymentMethod(String paymentMethodId) {
+    emit(state.copyWith(selectedPaymentMethod: paymentMethodId));
   }
 }
