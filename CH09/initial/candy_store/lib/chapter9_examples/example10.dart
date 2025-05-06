@@ -4,9 +4,9 @@ void main() async {
   try {
     await printWith1msDelay();
     await printWith1SecondDelay();
-  } on ImportantException catch (ex, st) {
+  } on ImportantException {
     print('An important exception was thrown');
-  } on UnimportantException catch (ex, st) {
+  } on UnimportantException {
     print('An unimportant exception was thrown');
   }
 }
