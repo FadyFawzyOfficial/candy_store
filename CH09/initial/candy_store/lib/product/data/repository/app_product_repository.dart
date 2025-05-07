@@ -1,4 +1,6 @@
-import 'dart:isolate';
+// import 'dart:isolate';
+
+import 'package:flutter/foundation.dart';
 
 import '../../domain/model/product.dart';
 import '../../domain/repository/product_repository.dart';
@@ -57,7 +59,13 @@ class AppProductRepository implements ProductRepository {
     final products = fakeSearchData;
     if (query.isEmpty) return products;
 
-    final results = await Isolate.run(() => _search(query));
+    //! Note: isolates are note supported on the web. So, if you want to avoid
+    //! errors on the web, instead of using the `isolate.run` function, you can
+    //! use the special `compute` function. On native platforms, it will use
+    //! `Isolate.run`, and on the web, it will run code synchronously.
+    //! The updated code would look like this:
+    final results = await compute(_search, query);
+    // final results = await Isolate.run(() => _search(query));
     return results;
   }
 
