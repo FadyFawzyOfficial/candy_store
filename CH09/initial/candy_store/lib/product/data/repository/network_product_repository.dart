@@ -21,4 +21,10 @@ class NetworkProductRepository implements ProductRepository {
     // TODO: implement updateProduct
     throw UnimplementedError();
   }
+
+  @override
+  Future<List<Product>> searchProducts(String query) {
+    // TODO: implement searchProducts
+    throw UnimplementedError();
+  }
 }

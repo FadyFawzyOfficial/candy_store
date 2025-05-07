@@ -4,4 +4,5 @@ abstract interface class ProductRepository {
   Future<List<Product>> fetchProduct();
   Future<Product> fetchProductById(int id);
   Future<void> updateProduct(Product product);
+  Future<List<Product>> searchProducts(String query);
 }
