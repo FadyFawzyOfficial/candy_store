@@ -27,4 +27,10 @@ class LocalProductRepository implements ProductRepository {
       await _productBox.addAll(products);
 
   Future<void> clearProducts() async => await _productBox.clear();
+
+  @override
+  Future<List<Product>> searchProducts(String query) {
+    // TODO: implement searchProducts
+    throw UnimplementedError();
+  }
 }
