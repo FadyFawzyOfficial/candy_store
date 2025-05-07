@@ -1,35 +1,6 @@
-import 'dart:convert';
+import 'package:candy_store/product/domain/model/product.dart';
 
-import 'package:flutter/foundation.dart';
-import 'package:http/http.dart';
-
-import '../../domain/model/product.dart';
-
-class ApiService {
-  final String _baseUrl = 'https://api.example.com/candystore';
-
-  Future<List<Product>> fetchProducts() async {
-    try {
-      final response = await get(Uri.parse('$_baseUrl/products'));
-
-      if (response.statusCode == 200) {
-        final List<dynamic> productData = json.decode(response.body);
-        return productData.map((json) => Product.fromJson(json)).toList();
-      } else {
-        // Since we don't have a real API to ping,
-        // instead of throwing an error as in a real app,
-        // we will return a mocked response
-        return fakeApiResponse;
-        //throw Exception('Failed to load candies');
-      }
-    } on Exception catch (e, st) {
-      debugPrint('Failed to load candies: $e, stacktrace: $st');
-      return fakeApiResponse;
-    }
-  }
-}
-
-final fakeApiResponse = [
+final products = [
   const Product(
     id: '1',
     name: 'Cupcake',
@@ -236,4 +207,8 @@ final fakeApiResponse = [
     sku: '5t2y',
     stock: 10,
   ),
+];
+
+final List<Product> fakeSearchData = [
+  for (var i = 0; i < 21 * 100000; i += 1) products[i % products.length],
 ];
