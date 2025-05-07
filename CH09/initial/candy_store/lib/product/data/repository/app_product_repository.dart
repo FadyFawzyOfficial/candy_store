@@ -1,7 +1,8 @@
-import 'local_product_repository.dart';
-import 'network_product_repository.dart';
 import '../../domain/model/product.dart';
 import '../../domain/repository/product_repository.dart';
+import 'fake_search_data.dart';
+import 'local_product_repository.dart';
+import 'network_product_repository.dart';
 
 //! In this AppProductRepository class, we inject both the local and API data
 //! sources through its constructor. When the fetchProducts method is called,
@@ -48,4 +49,65 @@ class AppProductRepository implements ProductRepository {
     // Update product data in the data source
     throw UnimplementedError();
   }
+
+  @override
+  Future<List<Product>> searchProducts(String query) async {
+    final products = fakeSearchData;
+    if (query.isEmpty) return products;
+
+    final results = products.where((product) {
+      if (product.name.toLowerCase().contains(query.toLowerCase())) return true;
+
+      final nameDistance = _levenshteinDistance(
+        product.name.toLowerCase(),
+        query.toLowerCase(),
+      );
+
+      final descriptionDistance = _levenshteinDistance(
+        product.description.toLowerCase(),
+        query.toLowerCase(),
+      );
+
+      return nameDistance <= 3 || descriptionDistance <= 3;
+    }).toList();
+
+    return results;
+  }
+
+  int _levenshteinDistance(String a, String b) {
+    if (a == b) return 0;
+
+    if (a.isEmpty) return b.length;
+
+    if (b.isEmpty) return a.length;
+
+    List<List<int>> matrix = List.generate(
+      b.length + 1,
+      (i) => List.generate(
+        a.length + 1,
+        (j) => j,
+        growable: false,
+      ),
+      growable: false,
+    );
+
+    for (var i = 1; i <= b.length; i++) {
+      matrix[i][0] = i;
+    }
+
+    for (var i = 1; i <= b.length; i++) {
+      for (var j = 1; j <= a.length; j++) {
+        int substitutionCost = (a[j - 1] == b[i - 1]) ? 0 : 1;
+        matrix[i][j] = _min(
+          matrix[i - 1][j] + 1, // deletion
+          matrix[i][j - 1] + 1, // insertion
+          matrix[i - 1][j - 1] + substitutionCost, // substitution
+        );
+      }
+    }
+
+    return matrix[b.length][a.length];
+  }
+
+  int _min(int a, int b, int c) => (a < b) ? (a < c ? a : c) : (b < c ? b : c);
 }
