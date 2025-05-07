@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import '../../domain/model/product.dart';
 import '../../domain/repository/product_repository.dart';
 import 'fake_search_data.dart';
@@ -55,7 +57,13 @@ class AppProductRepository implements ProductRepository {
     final products = fakeSearchData;
     if (query.isEmpty) return products;
 
-    final results = products.where((product) {
+    final results = await Isolate.run(() => _search(query));
+    return results;
+  }
+
+  static List<Product> _search(String query) {
+    final products = fakeSearchData;
+    final filtered = products.where((product) {
       if (product.name.toLowerCase().contains(query.toLowerCase())) return true;
 
       final nameDistance = _levenshteinDistance(
@@ -71,10 +79,10 @@ class AppProductRepository implements ProductRepository {
       return nameDistance <= 3 || descriptionDistance <= 3;
     }).toList();
 
-    return results;
+    return filtered;
   }
 
-  int _levenshteinDistance(String a, String b) {
+  static int _levenshteinDistance(String a, String b) {
     if (a == b) return 0;
 
     if (a.isEmpty) return b.length;
@@ -109,5 +117,6 @@ class AppProductRepository implements ProductRepository {
     return matrix[b.length][a.length];
   }
 
-  int _min(int a, int b, int c) => (a < b) ? (a < c ? a : c) : (b < c ? b : c);
+  static int _min(int a, int b, int c) =>
+      (a < b) ? (a < c ? a : c) : (b < c ? b : c);
 }
