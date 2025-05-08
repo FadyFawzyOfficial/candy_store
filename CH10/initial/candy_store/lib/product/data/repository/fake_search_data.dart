@@ -212,4 +212,3 @@ final products = [
 final List<Product> fakeSearchData = [
   for (var i = 0; i < 21 * 100000; i += 1) products[i % products.length],
 ];
-

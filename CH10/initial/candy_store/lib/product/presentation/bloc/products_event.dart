@@ -1,10 +1,10 @@
-import 'package:equatable/equatable.dart';
+part of 'products_bloc.dart';
 
 sealed class ProductsEvent extends Equatable {
   const ProductsEvent();
 
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
 final class FetchProducts extends ProductsEvent {
@@ -12,10 +12,10 @@ final class FetchProducts extends ProductsEvent {
 }
 
 final class SearchProducts extends ProductsEvent {
-  const SearchProducts(this.query);
-
   final String query;
 
+  const SearchProducts(this.query);
+
   @override
-  List<Object?> get props => [query];
+  List<Object> get props => [query];
 }

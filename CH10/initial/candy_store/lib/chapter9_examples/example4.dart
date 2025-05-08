@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const ProgressWidget());
-}
+void main() => runApp(const ProgressWidget());
 
 class ProgressWidget extends StatelessWidget {
   const ProgressWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return MaterialApp(
       home: Scaffold(
         body: Center(
@@ -22,7 +20,8 @@ class ProgressWidget extends StatelessWidget {
   }
 
   void _block() {
-    for (int i = 0; i < 1000000; i++) {
+    for (var i = 0; i < 1000000; i++) {
+      // Don't try debugPrint which will be as asynchronous
       print('$i');
     }
   }
