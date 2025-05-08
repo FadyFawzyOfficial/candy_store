@@ -1,5 +1,4 @@
-import 'package:candy_store/common/model/delayed_result.dart';
-import 'package:equatable/equatable.dart';
+part of 'checkout_cubit.dart';
 
 class CheckoutState extends Equatable {
   final List<String> paymentMethods;
@@ -20,14 +19,12 @@ class CheckoutState extends Equatable {
     return CheckoutState(
       paymentMethods: paymentMethods ?? this.paymentMethods,
       checkoutResult: checkoutResult ?? this.checkoutResult,
-      selectedPaymentMethod: selectedPaymentMethod ?? this.selectedPaymentMethod,
+      selectedPaymentMethod:
+          selectedPaymentMethod ?? this.selectedPaymentMethod,
     );
   }
 
   @override
-  List<Object?> get props => [
-    paymentMethods,
-    checkoutResult,
-    selectedPaymentMethod,
-  ];
+  List<Object> get props =>
+      [paymentMethods, checkoutResult, selectedPaymentMethod];
 }
