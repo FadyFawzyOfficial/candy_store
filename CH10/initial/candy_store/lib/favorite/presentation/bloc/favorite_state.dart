@@ -1,10 +1,13 @@
 part of 'favorite_bloc.dart';
 
-sealed class FavoriteState extends Equatable {
-  const FavoriteState();
-  
-  @override
-  List<Object> get props => [];
-}
+class FavoriteState extends Equatable {
+  final List<ProductListItem> items;
 
-final class FavoriteInitial extends FavoriteState {}
+  const FavoriteState({required this.items});
+
+  FavoriteState copyWith({List<ProductListItem>? items}) =>
+      FavoriteState(items: items ?? this.items);
+
+  @override
+  List<Object> get props => [items];
+}
