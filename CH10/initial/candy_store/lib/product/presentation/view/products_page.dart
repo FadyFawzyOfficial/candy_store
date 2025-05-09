@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../favorite/presentation/view/favorite_view.dart';
 import '../../domain/repository/product_repository.dart';
 import '../bloc/products_bloc.dart';
 import '../widget/product_list_item_view.dart';
@@ -29,7 +30,15 @@ class ProductsView extends StatelessWidget {
         .select((ProductsBloc bloc) => bloc.state.loadingResult)
         .isInProgress;
     return Scaffold(
-      appBar: AppBar(title: const Text('Products')),
+      appBar: AppBar(
+        title: const Text('Products'),
+        actions: [
+          IconButton(
+            onPressed: () => _openFavoritesView(context),
+            icon: const Icon(Icons.favorite_rounded),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Padding(
@@ -61,4 +70,7 @@ class ProductsView extends StatelessWidget {
       ),
     );
   }
+
+  void _openFavoritesView(BuildContext context) => Navigator.of(context)
+      .push(MaterialPageRoute(builder: (context) => const FavoriteView()));
 }
