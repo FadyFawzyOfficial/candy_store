@@ -26,7 +26,21 @@ class ProductDetailsPage extends StatelessWidget {
         builder: (context, state) {
           final product = state.item;
           return Scaffold(
-            appBar: AppBar(title: Text(product.name)),
+            appBar: AppBar(
+              title: Text(product.name),
+              actions: [
+                IconButton(
+                  onPressed: () => context
+                      .read<ProductDetailsBloc>()
+                      .add(const ToggleFavorite()),
+                  icon: Icon(
+                    state.isFavorite
+                        ? Icons.favorite_rounded
+                        : Icons.favorite_border_rounded,
+                  ),
+                ),
+              ],
+            ),
             body: Stack(
               fit: StackFit.expand,
               children: [
