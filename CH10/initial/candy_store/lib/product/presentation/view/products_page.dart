@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../cart/presentation/bloc/cart_bloc.dart';
-import '../../../cart/presentation/bloc/cart_event.dart';
 import '../../domain/repository/product_repository.dart';
 import '../bloc/products_bloc.dart';
 import '../widget/product_list_item_view.dart';
@@ -55,11 +53,7 @@ class ProductsView extends StatelessWidget {
                 itemCount: items.length,
                 itemBuilder: (context, index) {
                   final item = items[index];
-                  return ProductListItemView(
-                    item: item,
-                    onAddToCart: (item) =>
-                        context.read<CartBloc>().add(AddItem(item)),
-                  );
+                  return ProductListItemView(item: item);
                 },
               ),
             ),

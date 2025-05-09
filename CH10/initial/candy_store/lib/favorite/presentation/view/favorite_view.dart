@@ -33,11 +33,8 @@ class FavoriteViewBody extends StatelessWidget {
         return ListView.builder(
           padding: const EdgeInsets.all(16),
           itemCount: items.length,
-          itemBuilder: (context, index) => ProductListItemView(
-            item: items[index],
-            // ToDo: Need to to refactor it
-            onAddToCart: (item) {},
-          ),
+          itemBuilder: (context, index) =>
+              ProductListItemView(item: items[index]),
         );
       },
     );
