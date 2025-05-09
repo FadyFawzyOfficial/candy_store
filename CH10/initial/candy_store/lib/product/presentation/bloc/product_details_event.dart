@@ -6,3 +6,11 @@ sealed class ProductDetailsEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class LoadProductDetails extends ProductDetailsEvent {
+  const LoadProductDetails();
+}
+
+class ToggleFavorite extends ProductDetailsEvent {
+  const ToggleFavorite();
+}
