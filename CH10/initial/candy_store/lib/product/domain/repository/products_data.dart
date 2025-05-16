@@ -1,5 +1,5 @@
-import '../../domain/model/product.dart';
-import '../../domain/model/product_list_item.dart';
+import '../model/product.dart';
+import '../model/product_list_item.dart';
 
 final products = [
   const Product(

@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import '../../domain/model/product.dart';
 import '../../domain/repository/product_repository.dart';
-import 'fake_search_data.dart';
+import '../../domain/repository/products_data.dart';
 import 'local_product_repository.dart';
 import 'network_product_repository.dart';
 

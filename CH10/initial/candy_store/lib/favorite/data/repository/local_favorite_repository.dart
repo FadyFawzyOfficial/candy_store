@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 
-import '../../../product/data/repository/fake_search_data.dart';
+import '../../../product/domain/repository/products_data.dart';
 import '../../../product/domain/model/product_list_item.dart';
 import '../../domain/repository/favorite_repository.dart';
 
