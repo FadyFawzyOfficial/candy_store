@@ -1,4 +1,5 @@
-import 'package:candy_store/product/domain/model/product.dart';
+import '../../domain/model/product.dart';
+import '../../domain/model/product_list_item.dart';
 
 final products = [
   const Product(
@@ -208,6 +209,18 @@ final products = [
     stock: 10,
   ),
 ];
+
+final List<ProductListItem> productItems = products
+    .map(
+      (product) => ProductListItem(
+        id: product.id,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl,
+      ),
+    )
+    .toList();
 
 final List<Product> fakeSearchData = [
   for (var i = 0; i < 21 * 100000; i += 1) products[i % products.length],
