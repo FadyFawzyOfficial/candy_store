@@ -38,10 +38,10 @@ Future<void> main() async {
         ),
       ],
       child: MaterialApp(
+        // On web the "favorite" icon is hidden due to banner, this is done for convenience
+        debugShowCheckedModeBanner: false,
         title: 'Candy Store',
-        theme: ThemeData(
-          primarySwatch: Colors.lime,
-        ),
+        theme: ThemeData(primarySwatch: Colors.lime),
         initialRoute: '/',
         routes: {
           '/': (context) => MainPage.witBloc(),
