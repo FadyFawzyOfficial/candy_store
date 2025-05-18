@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'cart/data/repository/in_memory_cart_repository.dart';
 import 'cart/domain/repository/cart_repository.dart';
 import 'cart/presentation/view/cart_page.dart';
+import 'favorite/data/api/local_storage_api.g.dart';
 import 'favorite/data/repository/local_favorite_repository.dart';
 import 'favorite/domain/repository/favorite_repository.dart';
 import 'main_page.dart';
@@ -34,7 +35,9 @@ Future<void> main() async {
           create: (_) => InMemoryCartRepository(),
         ),
         RepositoryProvider<FavoriteRepository>(
-          create: (_) => LocalFavoriteRepository(),
+          create: (_) => LocalFavoriteRepository(
+            localStorageApi: LocalStorageApi(),
+          ),
         ),
       ],
       child: MaterialApp(
