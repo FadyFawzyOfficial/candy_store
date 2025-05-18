@@ -46,7 +46,7 @@ import Flutter
     }
     
     private func toggleFavorite(_ id: String, isFavorite: Bool) {
-        var currentFavorites = getFavorites()
+        var currentFavorites = getFavoriteIds()
         if isFavorite {
             currentFavorites.append(id)
         } else {
