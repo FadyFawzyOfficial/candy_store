@@ -2,6 +2,17 @@
 import 'package:pigeon/pigeon.dart';
 //* which allows us to use the annotations. If any other import statement are added, the generator won't work.
 
+@ConfigurePigeon(
+  PigeonOptions(
+    dartOut: 'lib/favorite/data/api/local_storage_api.g.dart',
+    kotlinOut:
+        'android/app/src/main/kotlin/com/example/candy_store/LocalStorageApi.g.kt',
+    kotlinOptions: KotlinOptions(package: 'com.example.candy_store'),
+    swiftOut: 'ios/Runner/LocalStorageApi.g.swift',
+    dartPackageName: 'candy_store',
+  ),
+)
+
 //! 1. Pigeon operates based on code annotations. This means that as developers,
 //! we annotate the code that we want to generate and then use the code generation
 //! tool to generate code based on these annotations.
