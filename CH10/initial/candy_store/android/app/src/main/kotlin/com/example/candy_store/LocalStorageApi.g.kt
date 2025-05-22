@@ -127,11 +127,12 @@ private open class LocalStorageApiPigeonCodec : StandardMessageCodec() {
   }
 }
 
+
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface LocalStorageApi {
   fun addFavorite(id: String)
   fun getFavorites(): List<FavoriteProduct>
-  fun isFavorite(id: String): Boolean
+  fun isFavorite(id: String, callback: (Result<Boolean>) -> Unit)
   fun removeFavorite(id: String)
 
   companion object {
@@ -182,12 +183,15 @@ interface LocalStorageApi {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
             val idArg = args[0] as String
-            val wrapped: List<Any?> = try {
-              listOf(api.isFavorite(idArg))
-            } catch (exception: Throwable) {
-              LocalStorageApiPigeonUtils.wrapError(exception)
+            api.isFavorite(idArg) { result: Result<Boolean> ->
+              val error = result.exceptionOrNull()
+              if (error != null) {
+                reply.reply(LocalStorageApiPigeonUtils.wrapError(error))
+              } else {
+                val data = result.getOrNull()
+                reply.reply(LocalStorageApiPigeonUtils.wrapResult(data))
+              }
             }
-            reply.reply(wrapped)
           }
         } else {
           channel.setMessageHandler(null)

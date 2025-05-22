@@ -189,11 +189,12 @@ class LocalStorageApiPigeonCodec: FlutterStandardMessageCodec, @unchecked Sendab
   static let shared = LocalStorageApiPigeonCodec(readerWriter: LocalStorageApiPigeonCodecReaderWriter())
 }
 
+
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol LocalStorageApi {
   func addFavorite(id: String) throws
   func getFavorites() throws -> [FavoriteProduct]
-  func isFavorite(id: String) throws -> Bool
+  func isFavorite(id: String, completion: @escaping (Result<Bool, Error>) -> Void)
   func removeFavorite(id: String) throws
 }
 
@@ -236,11 +237,13 @@ class LocalStorageApiSetup {
       isFavoriteChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]
         let idArg = args[0] as! String
-        do {
-          let result = try api.isFavorite(id: idArg)
-          reply(wrapResult(result))
-        } catch {
-          reply(wrapError(error))
+        api.isFavorite(id: idArg) { result in
+          switch result {
+          case .success(let res):
+            reply(wrapResult(res))
+          case .failure(let error):
+            reply(wrapError(error))
+          }
         }
       }
     } else {
