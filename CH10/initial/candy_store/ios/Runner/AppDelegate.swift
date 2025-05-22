@@ -30,8 +30,9 @@ import Flutter
         return favorites
     }
 
-    func isFavorite(id: String) -> Bool {
-        return getFavoriteIds().contains(id)
+    func isFavorite(id: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+        let isFavorite = getFavoriteIds().contains(id)
+        completion(.success(isFavorite))
     }
 
     func removeFavorite(id: String) {
