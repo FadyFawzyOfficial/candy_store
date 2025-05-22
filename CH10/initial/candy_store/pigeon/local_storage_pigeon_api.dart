@@ -28,6 +28,7 @@ abstract class LocalStorageApi {
   //* generator will throw an error. So, if we want to use any custom classes
   //* that are not already present in Dart, we need to define them within this exact file.
   List<FavoriteProduct> getFavorites();
+  @async
   bool isFavorite(String id);
   void removeFavorite(String id);
 }
