@@ -1,30 +1,26 @@
-import 'package:candy_store/product/domain/model/product_list_item.dart';
-import 'package:candy_store/product/presentation/view/product_details_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../cart/cart.dart';
+import '../../domain/model/product_list_item.dart';
+import '../view/product_details_page.dart';
 
 class ProductListItemView extends StatelessWidget {
   final ProductListItem item;
-  final Function(ProductListItem item) onAddToCart;
 
-  const ProductListItemView({
-    super.key,
-    required this.item,
-    required this.onAddToCart,
-  });
+  const ProductListItemView({super.key, required this.item});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => ProductDetailsPage(
-              product: item,
-              onAddToCart: onAddToCart,
-            ),
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => ProductDetailsPage(
+            item: item,
+            onAddToCart: (item) => _onAddToCart(context, item),
           ),
-        );
-      },
+        ),
+      ),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         child: Row(
@@ -75,7 +71,7 @@ class ProductListItemView extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 GestureDetector(
-                  onTap: () => onAddToCart(item),
+                  onTap: () => _onAddToCart(context, item),
                   child: Icon(
                     Icons.add,
                     size: 24,
@@ -89,4 +85,7 @@ class ProductListItemView extends StatelessWidget {
       ),
     );
   }
+
+  void _onAddToCart(BuildContext context, ProductListItem item) =>
+      context.read<CartBloc>().add(AddItem(item));
 }

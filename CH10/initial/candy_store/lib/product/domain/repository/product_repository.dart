@@ -1,6 +1,8 @@
-import 'package:candy_store/product/domain/model/product.dart';
+import '../model/product.dart';
 
 abstract interface class ProductRepository {
-  Future<List<Product>> fetchProducts();
+  Future<List<Product>> fetchProduct();
+  Future<Product> fetchProductById(int id);
+  Future<void> updateProduct(Product product);
   Future<List<Product>> searchProducts(String query);
 }

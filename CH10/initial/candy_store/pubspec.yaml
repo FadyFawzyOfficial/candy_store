@@ -2,7 +2,7 @@ name: candy_store
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ^3.6.2
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -30,15 +30,24 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  equatable: ^2.0.5
-  flutter_bloc: ^8.1.4
-  http: ^1.2.1
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  # A Dart package that helps to implement value based equality without needing to explicitly override == and hashCode.
+  equatable: ^2.0.7
+  # Flutter Widgets that make it easy to implement the BLoC (Business Logic Component) design pattern.
+  # Built to be used with the bloc state management package.
+  flutter_bloc: ^9.1.0
+  # A composable, multi-platform, Future-based API for HTTP requests.
+  http: ^1.3.0
+  # Lightweight and blazing fast key-value database written in pure Dart. Strongly encrypted using AES-256.
+  hive: ^2.2.3
+  # Extension for Hive. Makes it easier to use Hive in Flutter apps.
+  hive_flutter: ^1.1.0
+
+dependency_overrides:
+  win32: 5.9.0
 
 dev_dependencies:
   flutter_test:
@@ -50,13 +59,19 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  # The build_runner package provides a concrete way of generating files using Dart code.
+  # A build system for Dart code generation and modular compilation.
+  build_runner: ^2.4.15
+  # Pigeon is a code generator tool to make communication between
+  # Flutter and the host platform type-safe, easier, and faster.
+  pigeon: ^25.3.2
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
