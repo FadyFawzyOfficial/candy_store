@@ -22,10 +22,10 @@ class MainActivity : FlutterActivity(), LocalStorageApi {
         return favorites.map { FavoriteProduct(id = it) }
     }
 
-    override fun isFavorite(id: String): Boolean {
+    override fun isFavorite(id: String, callback: (Result<Boolean>) -> Unit) {
         val preferences = getSharedPreferences()
         val favorites = preferences.getStringSet("favorites", HashSet()) ?: HashSet()
-        return favorites.contains(id)
+        return callback(Result.success(favorites.contains(id)))
     }
 
     override fun removeFavorite(id: String){
