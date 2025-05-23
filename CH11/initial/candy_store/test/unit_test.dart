@@ -2,6 +2,7 @@ import 'package:candy_store/cart/domain/model/cart_list_item.dart';
 import 'package:candy_store/cart/presentation/bloc/cart_bloc.dart';
 import 'package:candy_store/cart/presentation/bloc/cart_event.dart';
 import 'package:candy_store/cart/presentation/bloc/cart_state.dart';
+import 'package:candy_store/common/model/delayed_result.dart';
 
 import 'fake_cart_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,6 +11,21 @@ import 'test_data.dart';
 
 void main() {
   group('CartBloc Unit Tests', () {
+    test('Initial state is correct', () {
+      final fakeCartRepository = FakeCartRepository();
+      final cartBloc = CartBloc(cartRepository: fakeCartRepository);
+
+      expect(
+        cartBloc.state,
+        const CartState(
+          items: {},
+          totalPrice: 0,
+          totalItems: 0,
+          loadingResult: DelayedResult.idle(),
+        ),
+      );
+    });
+
     test('Remove item from cart', () async {
       final fakeCartRepository = FakeCartRepository();
       final cartBloc = CartBloc(cartRepository: fakeCartRepository);
