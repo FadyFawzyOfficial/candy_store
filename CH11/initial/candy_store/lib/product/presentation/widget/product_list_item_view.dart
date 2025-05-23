@@ -7,8 +7,13 @@ import '../view/product_details_page.dart';
 
 class ProductListItemView extends StatelessWidget {
   final ProductListItem item;
+  final bool showPlaceholderForImage;
 
-  const ProductListItemView({super.key, required this.item});
+  const ProductListItemView({
+    super.key,
+    required this.item,
+    this.showPlaceholderForImage = false,
+  });
 
   @override
   Widget build(context) {
@@ -30,7 +35,9 @@ class ProductListItemView extends StatelessWidget {
               child: SizedBox(
                 width: 72,
                 height: 72,
-                child: Image.asset(item.imageUrl),
+                child: showPlaceholderForImage
+                    ? const Placeholder()
+                    : Image.asset(item.imageUrl),
               ),
             ),
             Expanded(
