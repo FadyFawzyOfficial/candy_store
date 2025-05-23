@@ -65,6 +65,8 @@ dev_dependencies:
   # Pigeon is a code generator tool to make communication between
   # Flutter and the host platform type-safe, easier, and faster.
   pigeon: ^25.3.2
+  # Common patterns for screenshot-based widget testing using Golden.
+  golden_toolkit: ^0.15.0
 
 
 # For information on the generic Dart part of this file, see the
