@@ -38,6 +38,37 @@ void main() {
     expect(find.text('2.0 €'), findsOneWidget);
   });
 
+  testWidgets('View the main page as expected for 1 product.',
+      (WidgetTester tester) async {
+    final fakeCartRepository = FakeCartRepository();
+    final fakeProductRepository = FakeProductRepository();
+    final cartBloc = CartBloc(cartRepository: fakeCartRepository);
+
+    await tester.pumpWidget(
+      MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider<CartRepository>(
+            create: (_) => fakeCartRepository,
+          ),
+          RepositoryProvider<ProductRepository>(
+            create: (_) => fakeProductRepository,
+          ),
+        ],
+        child: BlocProvider(
+          create: (context) => cartBloc,
+          child: MaterialApp(home: MainPage.witBloc()),
+        ),
+      ),
+    );
+
+    // Ensure the widget tree is built
+    await tester.pumpAndSettle();
+
+    expect(find.text('Products'), findsOneWidget);
+    expect(find.byType(MainPage), findsOneWidget);
+    expect(find.byIcon(Icons.add), findsNWidgets(1));
+  });
+
   //! Widget tests don't run like integration tests in a real device because
   //! they don't need to. However, there are some ways to make them interact with
   //! our app and perform the related taps and calculations.
