@@ -67,6 +67,8 @@ dev_dependencies:
   pigeon: ^25.3.2
   # Common patterns for screenshot-based widget testing using Golden.
   golden_toolkit: ^0.15.0
+  # A mock framework inspired by Mockito with APIs for Fakes, Mocks, behavior verification, and stubbing.
+  mockito: ^5.4.5
 
 
 # For information on the generic Dart part of this file, see the
