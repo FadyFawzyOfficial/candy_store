@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:candy_store/cart/cart.dart';
 import 'package:candy_store/cart/domain/model/cart_info.dart';
+import 'package:candy_store/cart/presentation/bloc/cart_state.dart';
+import 'package:candy_store/common/model/delayed_result.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -33,5 +35,21 @@ void main() {
     //! This function runs after each test. It ensures that StreamController is
     //! closed properly so that resources can be cleaned up and memory leaks can be avoided
     tearDown(() => cartInfoController.close());
+
+    //! This test checks that the initial state of CartBloc is correct. It ensures that
+    //! when cartBloc is first created, its state has no items, a total price of 0,
+    //! a total item count of 0, and an idle loading result.
+    test(
+      'Initial state is correct',
+      () => expect(
+        cartBloc.state,
+        const CartState(
+          items: {},
+          totalPrice: 0,
+          totalItems: 0,
+          loadingResult: DelayedResult.idle(),
+        ),
+      ),
+    );
   });
 }
