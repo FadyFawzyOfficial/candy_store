@@ -9,6 +9,11 @@
 # packages, and plugins designed to encourage good coding practices.
 include: all_lints.yaml
 
+analyzer:
+  language:
+    # We can enable stricter type checks, such as by setting strict-casts to true.
+    strict-casts: true
+
 linter:
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`

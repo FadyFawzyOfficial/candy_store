@@ -13,8 +13,9 @@ class ApiService {
       final response = await get(Uri.parse('$_baseUrl/products'));
 
       if (response.statusCode == 200) {
-        final List<dynamic> productData = json.decode(response.body);
-        return productData.map((json) => Product.fromJson(json)).toList();
+        final productData =
+            json.decode(response.body) as List<Map<String, dynamic>>;
+        return productData.map(Product.fromJson).toList();
       } else {
         // Since we don't have a real API to ping,
         // instead of throwing an error as in a real app,
