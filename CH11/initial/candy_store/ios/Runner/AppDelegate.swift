@@ -1,7 +1,7 @@
 import UIKit
 import Flutter
 
-@UIApplicationMain
+@main
 @objc class AppDelegate: FlutterAppDelegate, LocalStorageApi {
     private let userDefaults = UserDefaults.standard
     
@@ -9,46 +9,51 @@ import Flutter
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        // 1. First, we have obtained the FlutterViewController controller in order to access binaryMessenger.
         let controller: FlutterViewController = window?.rootViewController as! FlutterViewController
+
         LocalStorageApiSetup.setUp(binaryMessenger: controller.binaryMessenger, api: self)
+        
         GeneratedPluginRegistrant.register(with: self)
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
-    func addFave(id: String) {
+    func addFavorite(id: String) {
         toggleFavorite(id, isFavorite: true)
     }
     
-    func removeFave(id: String) {
+    func getFavorites() -> [FavoriteProduct] {
+        let favoriteIds = getFavoriteIds()
+        let favorites = favoriteIds.map { id in 
+            return FavoriteProduct(id: id)
+        }
+        return favorites
+    }
+
+    func isFavorite(id: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+        let isFavorite = getFavoriteIds().contains(id)
+        completion(.success(isFavorite))
+    }
+
+    func removeFavorite(id: String) {
         toggleFavorite(id, isFavorite: false)
     }
     
-    func getFaves() -> [FaveProduct] {
-        let favesIds = getFavesIds()
-        let faveProducts = favesIds.map { id in
-            return FaveProduct(id: id)
-        }
-        return faveProducts
-    }
-    
-    func isFave(id: String) -> Bool {
-        return getFavesIds().contains(id)
-    }
-    
-    private func getFavesIds() -> [String] {
-        if let faves = userDefaults.array(forKey: "faves") as? [String] {
-            return faves
+    private func getFavoriteIds() -> [String] {
+        if let favorites = userDefaults.array(forKey: "favorites") as? [String] {
+            return favorites
         }
         return []
     }
     
     private func toggleFavorite(_ id: String, isFavorite: Bool) {
-        var currentFaves = getFavesIds()
+        var currentFavorites = getFavoriteIds()
         if isFavorite {
-            currentFaves.append(id)
+            currentFavorites.append(id)
         } else {
-            currentFaves.removeAll { $0 == id }
+            currentFavorites.removeAll { $0 == id }
         }
-        userDefaults.set(currentFaves, forKey: "faves")
+        
+        userDefaults.set(currentFavorites, forKey: "favorites")
     }
 }

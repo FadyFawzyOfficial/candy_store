@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+part of 'product_details_bloc.dart';
 
 sealed class ProductDetailsEvent extends Equatable {
   const ProductDetailsEvent();

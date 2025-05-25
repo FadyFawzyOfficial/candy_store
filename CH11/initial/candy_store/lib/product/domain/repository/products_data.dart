@@ -1,5 +1,5 @@
-import 'package:candy_store/product/domain/model/product.dart';
-import 'package:candy_store/product/domain/model/product_list_item.dart';
+import '../model/product.dart';
+import '../model/product_list_item.dart';
 
 final products = [
   const Product(

@@ -1,31 +1,31 @@
-import 'package:candy_store/cart/presentation/bloc/cart_bloc.dart';
-import 'package:candy_store/cart/presentation/bloc/cart_event.dart';
-import 'package:candy_store/product/domain/model/product_list_item.dart';
-import 'package:candy_store/product/presentation/view/product_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../cart/cart.dart';
+import '../../domain/model/product_list_item.dart';
+import '../view/product_details_page.dart';
+
 class ProductListItemView extends StatelessWidget {
   final ProductListItem item;
+  final bool showPlaceholderForImage;
 
   const ProductListItemView({
     super.key,
     required this.item,
+    this.showPlaceholderForImage = false,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => ProductDetailsPage.withBloc(
-              item,
-              (item) => _onAddToCart(context, item),
-            ),
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => ProductDetailsPage(
+            item: item,
+            onAddToCart: (item) => _onAddToCart(context, item),
           ),
-        );
-      },
+        ),
+      ),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         child: Row(
@@ -35,7 +35,9 @@ class ProductListItemView extends StatelessWidget {
               child: SizedBox(
                 width: 72,
                 height: 72,
-                child: Image.asset(item.imageUrl),
+                child: showPlaceholderForImage
+                    ? const Placeholder()
+                    : Image.asset(item.imageUrl),
               ),
             ),
             Expanded(
@@ -91,7 +93,6 @@ class ProductListItemView extends StatelessWidget {
     );
   }
 
-  void _onAddToCart(BuildContext context, ProductListItem item) {
-    context.read<CartBloc>().add(AddItem(item));
-  }
+  void _onAddToCart(BuildContext context, ProductListItem item) =>
+      context.read<CartBloc>().add(AddItem(item));
 }
