@@ -12,40 +12,40 @@ class MainActivity : FlutterActivity(), LocalStorageApi {
         LocalStorageApi.setUp(flutterEngine.dartExecutor.binaryMessenger, this)
     }
 
-    override fun getFaves(): List<FaveProduct> {
-        val preferences = getSharedPreferences()
-        val faves = preferences.getStringSet("faves", HashSet()) ?: HashSet()
-        return faves.map { FaveProduct(id = it) }
-    }
-
-    override fun isFave(id: String): Boolean {
-        val preferences = getSharedPreferences()
-        val faves = preferences.getStringSet("faves", HashSet()) ?: HashSet()
-        return faves.contains(id)
-    }
-
-    override fun addFave(id: String) {
+    override fun addFavorite(id: String) {
         toggleFavorite(id, true)
     }
 
-    override fun removeFave(id: String) {
+    override fun getFavorites(): List<FavoriteProduct>{
+        val preferences = getSharedPreferences()
+        val favorites = preferences.getStringSet("favorites", HashSet()) ?: HashSet()
+        return favorites.map { FavoriteProduct(id = it) }
+    }
+
+    override fun isFavorite(id: String, callback: (Result<Boolean>) -> Unit) {
+        val preferences = getSharedPreferences()
+        val favorites = preferences.getStringSet("favorites", HashSet()) ?: HashSet()
+        return callback(Result.success(favorites.contains(id)))
+    }
+
+    override fun removeFavorite(id: String){
         toggleFavorite(id, false)
     }
 
     private fun toggleFavorite(id: String, isFavorite: Boolean) {
         val preferences = getSharedPreferences()
-        val allFaves = HashSet<String>()
-        val faves = preferences.getStringSet("faves", HashSet()) ?: HashSet()
-        allFaves.addAll(faves)
+        val allFavorites = HashSet<String>()
+        val favorites = preferences.getStringSet("favorites", HashSet()) ?: HashSet()
+        allFavorites.addAll(favorites)
         if (isFavorite) {
-            allFaves.add(id)
+            allFavorites.add(id)
         } else {
-            allFaves.remove(id)
+            allFavorites.remove(id)
         }
-        preferences.edit().putStringSet("faves", allFaves).apply()
+        preferences.edit().putStringSet("favorites", allFavorites).apply()
     }
 
     private fun getSharedPreferences(): SharedPreferences {
-        return applicationContext.getSharedPreferences("faves", Context.MODE_PRIVATE)
+        return applicationContext.getSharedPreferences("favorites", Context.MODE_PRIVATE)
     }
 }

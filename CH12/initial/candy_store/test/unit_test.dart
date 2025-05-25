@@ -3,8 +3,10 @@ import 'package:candy_store/cart/presentation/bloc/cart_bloc.dart';
 import 'package:candy_store/cart/presentation/bloc/cart_event.dart';
 import 'package:candy_store/cart/presentation/bloc/cart_state.dart';
 import 'package:candy_store/common/model/delayed_result.dart';
-import 'package:flutter_test/flutter_test.dart';
+
 import 'fake_cart_repository.dart';
+import 'package:flutter_test/flutter_test.dart';
+
 import 'test_data.dart';
 
 void main() {
@@ -50,7 +52,8 @@ void main() {
       await subscription.cancel();
 
       // Verify state changes
-      expect(states.length, greaterThanOrEqualTo(3)); // Should have at least 3 states
+      expect(states.length,
+          greaterThanOrEqualTo(3)); // Should have at least 3 states
       expect(states[0].loadingResult.isInProgress, isTrue);
       expect(states[1].loadingResult.isInProgress, isFalse);
       expect(states[2].items.length, equals(0));
