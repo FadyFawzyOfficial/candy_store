@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../common/model/delayed_result.dart';
+import '../../../product/domain/model/product_list_item.dart';
 import '../../domain/model/cart_list_item.dart';
 import '../../domain/repository/cart_repository.dart';
 import 'cart_state.dart';
-import '../../../common/model/delayed_result.dart';
-import '../../../product/domain/model/product_list_item.dart';
 
 //* 1. First of all, instead of extending ChangeNotifier, we now extend Cubit.
 //* Pay attention to how we also specify CartState in the angle bracket that
@@ -54,9 +54,9 @@ class CartCubit extends Cubit<CartState> {
       // we will do at the end of this chapter.
 
       emit(state.copyWith(
-        items: cartInfo.items,
-        totalPrice: cartInfo.totalPrice,
-        totalItems: cartInfo.totalItems,
+          items: cartInfo.items,
+          totalPrice: cartInfo.totalPrice,
+          totalItems: cartInfo.totalItems,
       ));
 
       emit(state.copyWith(loadingResult: const DelayedResult.idle()));

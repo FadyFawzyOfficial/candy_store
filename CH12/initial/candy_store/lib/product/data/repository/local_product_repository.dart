@@ -24,9 +24,9 @@ class LocalProductRepository implements ProductRepository {
   }
 
   Future<void> cacheProducts(List<Product> products) async =>
-      await _productBox.addAll(products);
+      _productBox.addAll(products);
 
-  Future<void> clearProducts() async => await _productBox.clear();
+  Future<void> clearProducts() async => _productBox.clear();
 
   @override
   Future<List<Product>> searchProducts(String query) {

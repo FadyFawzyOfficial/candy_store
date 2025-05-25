@@ -36,7 +36,7 @@ void main() {
 
     //! This function runs after each test. It ensures that StreamController is
     //! closed properly so that resources can be cleaned up and memory leaks can be avoided
-    tearDown(() => cartInfoController.close());
+    tearDown(() async => cartInfoController.close());
 
     //! This test checks that the initial state of CartBloc is correct. It ensures that
     //! when cartBloc is first created, its state has no items, a total price of 0,

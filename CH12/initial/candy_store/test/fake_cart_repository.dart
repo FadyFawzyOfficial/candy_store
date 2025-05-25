@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:candy_store/product/domain/model/product_list_item.dart';
 import 'package:candy_store/cart/domain/model/cart_info.dart';
 import 'package:candy_store/cart/domain/model/cart_list_item.dart';
 import 'package:candy_store/cart/domain/repository/cart_repository.dart';
+import 'package:candy_store/product/domain/model/product_list_item.dart';
 
 class FakeCartRepository implements CartRepository {
   final _cartInfoController = StreamController<CartInfo>.broadcast();
@@ -56,5 +56,5 @@ class FakeCartRepository implements CartRepository {
     }
   }
 
-  void dispose() => _cartInfoController.close();
+  Future<void> dispose() async => _cartInfoController.close();
 }

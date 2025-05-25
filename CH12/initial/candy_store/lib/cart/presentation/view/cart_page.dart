@@ -142,6 +142,6 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  void _initCheckout() => Navigator.push(
+  Future<void> _initCheckout() async => Navigator.push(
       context, MaterialPageRoute(builder: (_) => const CheckoutFlow()));
 }

@@ -63,7 +63,7 @@ class DessertRouteInformationParser
 
       //! If the initial segment is correct, the method attempts to parse the
       //! second segment as an integer, representing the dessert ID.
-      var id = int.tryParse(uri.pathSegments[1]);
+      final id = int.tryParse(uri.pathSegments[1]);
       //* If parsing fails, it again returns DessertRoutePath.unknown().
       //* Any other URL pattern that does not match these conditions is also
       //* treated as unknown, with the method returning DessertRoutePath.unknown().

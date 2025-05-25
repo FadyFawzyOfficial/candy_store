@@ -4,8 +4,8 @@ import 'package:candy_store/cart/presentation/bloc/cart_event.dart';
 import 'package:candy_store/cart/presentation/bloc/cart_state.dart';
 import 'package:candy_store/common/model/delayed_result.dart';
 
-import 'fake_cart_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'fake_cart_repository.dart';
 
 import 'test_data.dart';
 
