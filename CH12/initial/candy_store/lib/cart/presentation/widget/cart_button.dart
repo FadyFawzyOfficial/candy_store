@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 class CartButton extends StatelessWidget {
   final int count;
 
-  const CartButton({
-    super.key,
-    required this.count,
-  });
+  const CartButton({super.key, required this.count});
 
   @override
   Widget build(BuildContext context) {
