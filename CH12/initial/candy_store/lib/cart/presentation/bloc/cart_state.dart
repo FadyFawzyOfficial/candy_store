@@ -17,7 +17,8 @@ class CartState extends Equatable {
     required this.totalPrice,
     required this.totalItems,
     required this.loadingResult,
-  });
+  })  : assert(totalPrice >= 0, 'Total price cannot be negative'),
+        assert(totalItems >= 0, 'Total items cannot be negative');
 
   CartState copyWith({
     Map<String, CartListItem>? items,
