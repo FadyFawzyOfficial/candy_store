@@ -12,7 +12,15 @@ include: all_lints.yaml
 analyzer:
   language:
     # We can enable stricter type checks, such as by setting strict-casts to true.
-    strict-casts: true
+    # strict-casts: true
+  exclude:
+    # We can specify the files and folders that we want to exclude from static code analysis.
+    # For example, we can exclude the test folder.
+    - test/_data/**
+  errors:
+    # We can modify the severity of specific rules. Now, the dead_code rule will be highlighted
+    # as an error instead of just a hint
+    dead_code: error
 
 linter:
   # The lint rules applied to this project can be customized in the
