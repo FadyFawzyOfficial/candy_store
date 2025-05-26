@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 import '../../domain/model/product.dart';
 
@@ -10,11 +10,12 @@ class ApiService {
 
   Future<List<Product>> fetchProducts() async {
     try {
-      final response = await http.get(Uri.parse('$_baseUrl/products'));
+      final response = await get(Uri.parse('$_baseUrl/products'));
 
       if (response.statusCode == 200) {
-        final productData = json.decode(response.body);
-        return productData.map((json) => Product.fromJson(json)).toList();
+        final productData =
+            json.decode(response.body) as List<Map<String, dynamic>>;
+        return productData.map(Product.fromJson).toList();
       } else {
         // Since we don't have a real API to ping,
         // instead of throwing an error as in a real app,
@@ -22,8 +23,8 @@ class ApiService {
         return fakeApiResponse;
         //throw Exception('Failed to load candies');
       }
-    } on Exception catch (ex, st) {
-      debugPrint('Failed to load candies: $ex, stacktrace: $st');
+    } on Exception catch (e, st) {
+      debugPrint('Failed to load candies: $e, stacktrace: $st');
       return fakeApiResponse;
     }
   }

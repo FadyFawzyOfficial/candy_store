@@ -1,24 +1,32 @@
-import 'package:candy_store/product/domain/model/product.dart';
-import 'package:candy_store/product/domain/repository/product_repository.dart';
 import 'package:hive/hive.dart';
 
-class LocalProductRepository implements ProductRepository {
-  LocalProductRepository(this._productBox);
+import '../../domain/model/product.dart';
+import '../../domain/repository/product_repository.dart';
 
+class LocalProductRepository implements ProductRepository {
   final Box<Product> _productBox;
 
+  LocalProductRepository(this._productBox);
+
   @override
-  Future<List<Product>> fetchProducts() async {
-    return _productBox.values.toList();
+  Future<List<Product>> fetchProduct() async => _productBox.values.toList();
+
+  @override
+  Future<Product> fetchProductById(int id) {
+    // TODO: implement fetchProductById
+    throw UnimplementedError();
   }
 
-  Future<void> cacheProducts(List<Product> products) async {
-    await _productBox.addAll(products);
+  @override
+  Future<void> updateProduct(Product product) {
+    // TODO: implement updateProduct
+    throw UnimplementedError();
   }
 
-  Future<void> clearCache() async {
-    await _productBox.clear();
-  }
+  Future<void> cacheProducts(List<Product> products) async =>
+      _productBox.addAll(products);
+
+  Future<void> clearProducts() async => _productBox.clear();
 
   @override
   Future<List<Product>> searchProducts(String query) {

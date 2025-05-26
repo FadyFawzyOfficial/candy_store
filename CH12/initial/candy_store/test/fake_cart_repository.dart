@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:candy_store/cart/domain/model/cart_info.dart';
 import 'package:candy_store/cart/domain/model/cart_list_item.dart';
 import 'package:candy_store/cart/domain/repository/cart_repository.dart';
@@ -32,6 +33,7 @@ class FakeCartRepository implements CartRepository {
     } else {
       _items[item.id] = CartListItem(product: item, quantity: 1);
     }
+
     _totalPrice += item.price;
     _cartInfoController.add(await cartInfoFuture);
   }
@@ -49,11 +51,10 @@ class FakeCartRepository implements CartRepository {
       } else {
         _items.remove(item.product.id);
       }
+
       _cartInfoController.add(await cartInfoFuture);
     }
   }
 
-  void dispose() {
-    _cartInfoController.close();
-  }
+  Future<void> dispose() async => _cartInfoController.close();
 }

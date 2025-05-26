@@ -1,11 +1,15 @@
-import 'package:candy_store/cart/domain/model/cart_list_item.dart';
-import 'package:candy_store/common/model/delayed_result.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../../common/model/delayed_result.dart';
+import '../../domain/model/cart_list_item.dart';
 
 class CartState extends Equatable {
   final Map<String, CartListItem> items;
   final double totalPrice;
   final int totalItems;
+  //! Now, instead of the isProcessing and error fields, we have one - the loadingResult filed.
+  //! Instead of setting different fields for progress and errors, we now manipulate the status
+  //! with just one, and it's always consistent with the actual state of things.
   final DelayedResult<void> loadingResult;
 
   const CartState({
@@ -13,7 +17,8 @@ class CartState extends Equatable {
     required this.totalPrice,
     required this.totalItems,
     required this.loadingResult,
-  });
+  })  : assert(totalPrice >= 0, 'Total price cannot be negative'),
+        assert(totalItems >= 0, 'Total items cannot be negative');
 
   CartState copyWith({
     Map<String, CartListItem>? items,
@@ -30,10 +35,5 @@ class CartState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-        items,
-        totalPrice,
-        totalItems,
-        loadingResult,
-      ];
+  List<Object?> get props => [items, totalPrice, totalItems, loadingResult];
 }

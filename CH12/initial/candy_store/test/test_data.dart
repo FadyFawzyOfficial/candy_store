@@ -6,12 +6,13 @@ class TestData {
     Product(
       id: '2',
       name: 'Test Donut',
-      description: 'A soft and sweet test donut, glazed or filled with your favorite flavors',
-      price: 4,
+      description:
+          'A soft and sweet test donut, glazed or filled with your favorite flavors.',
+      price: 5,
       imageUrl: 'resources/images/donut.webp',
       sku: '231fd',
       stock: 5,
-    ),
+    )
   ];
 
   static final testProductListItem = ProductListItem(

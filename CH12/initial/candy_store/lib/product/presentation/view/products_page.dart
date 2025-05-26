@@ -1,34 +1,30 @@
-import 'package:candy_store/product/presentation/bloc/products_bloc.dart';
-import 'package:candy_store/product/presentation/bloc/products_bloc_event.dart';
-import 'package:candy_store/product/presentation/widget/product_list_item_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProductsPage extends StatelessWidget {
-  const ProductsPage({super.key, required this.onFavesTap});
+import '../../../favorite/presentation/view/favorite_view.dart';
+import '../../domain/repository/product_repository.dart';
+import '../bloc/products_bloc.dart';
+import '../widget/product_list_item_view.dart';
 
-  final VoidCallback onFavesTap;
+class ProductsPage extends StatelessWidget {
+  const ProductsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return BlocProvider(
-      create: (context) => ProductsBloc(
-        productRepository: context.read(),
-      )..add(
-          const FetchProducts(),
-        ),
-      child: _ProductsView(onFavesTap: onFavesTap),
+      create: (context) =>
+          ProductsBloc(productRepository: context.read<ProductRepository>())
+            ..add(const FetchProducts()),
+      child: const ProductsView(),
     );
   }
 }
 
-class _ProductsView extends StatelessWidget {
-  const _ProductsView({required this.onFavesTap});
-
-  final VoidCallback onFavesTap;
+class ProductsView extends StatelessWidget {
+  const ProductsView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     final items = context.select((ProductsBloc bloc) => bloc.state.items);
     final progress = context
         .select((ProductsBloc bloc) => bloc.state.loadingResult)
@@ -38,8 +34,8 @@ class _ProductsView extends StatelessWidget {
         title: const Text('Products'),
         actions: [
           IconButton(
-            onPressed: onFavesTap,
-            icon: const Icon(Icons.favorite),
+            onPressed: () => _openFavoritesView(context),
+            icon: const Icon(Icons.favorite_rounded),
           ),
         ],
       ),
@@ -50,11 +46,10 @@ class _ProductsView extends StatelessWidget {
             child: TextField(
               decoration: const InputDecoration(
                 hintText: 'Search',
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: Icon(Icons.search_rounded),
               ),
-              onChanged: (query) {
-                context.read<ProductsBloc>().add(SearchProducts(query));
-              },
+              onChanged: (query) =>
+                  context.read<ProductsBloc>().add(SearchProducts(query)),
             ),
           ),
           const SizedBox(height: 16),
@@ -75,4 +70,7 @@ class _ProductsView extends StatelessWidget {
       ),
     );
   }
+
+  void _openFavoritesView(BuildContext context) => Navigator.of(context)
+      .push(MaterialPageRoute(builder: (context) => const FavoriteView()));
 }
